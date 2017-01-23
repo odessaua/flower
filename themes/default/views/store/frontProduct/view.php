@@ -88,7 +88,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 					?>
                     <?php if($model->short_description): ?>
                     <div class="number g-clearfix">
-                        <div class="sort sort-size" style="float: left;">
+                        <div class="sort sort-size" style="float: left; margin-left: 80px;">
                             <a class="drop-link" href="#" title=""><?=Yii::t('StoreModule.core','The composition and size')?></a>
                             <div class="sort-popup hidden">
                                 <?=$model->short_description?>
