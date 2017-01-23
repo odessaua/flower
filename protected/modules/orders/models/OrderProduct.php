@@ -108,7 +108,7 @@ public static function getProducts($prod, $lang = 0){
 
 		$tmp=unserialize($value->variants);
 		// var_dump($tmp);
-		$quantity=(!empty($tmp))?($tmp['Количество цветов']):"-";
+		$quantity=(!empty($tmp['Количество цветов']))?($tmp['Количество цветов']):"-";
 			$products.=$value->name."(".$value->quantity.") (".$quantity.")";
 		}
 		return $products;
