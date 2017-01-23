@@ -25,7 +25,7 @@ class IndexController extends Controller
 		    // var_dump( Page::model()->findByPK(15));
 		$this->render('index', array(
 //			'popular' => $this->getPopular(9),
-			'popular' => $this->getMainPage(9),
+			'popular' => $this->getMainPage(),
 			'mainContent'    => Page::model()->findByPK(15),
 			'comments'=>$comments
 		));
@@ -75,7 +75,7 @@ class IndexController extends Controller
      * @param $limit
      * @return array
      */
-    protected function getMainPage($limit)
+    protected function getMainPage($limit = 0)
     {
         return StoreProduct::model()
             ->active()

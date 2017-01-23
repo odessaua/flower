@@ -73,7 +73,7 @@ class CartController extends Controller
 			'cardPrice'=>$cardPrice,
 			'rate'=>$rate,
 			'symbol'=>$symbol,
-            'popular' => $this->getMainPage(9),
+            'popular' => $this->getMainPage(),
 		));
 	}
 
@@ -81,7 +81,7 @@ class CartController extends Controller
      * @param $limit
      * @return array
      */
-    protected function getMainPage($limit)
+    protected function getMainPage($limit = 0)
     {
         return StoreProduct::model()
             ->active()
