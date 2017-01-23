@@ -38,6 +38,7 @@ Yii::import('application.modules.store.models.components.StoreProductImageSaver'
  * @property integer $votes // Star rating votes
  * @property integer $rating
  * @property string $discount
+ * @property integer $main_page
  * @method StoreProduct active() Find Only active products
  * @method StoreProduct newest() Order products by creating date
  * @method StoreProduct byViews() Order by views count
@@ -122,6 +123,9 @@ class StoreProduct extends BaseModel
 			'newest'=>array('order'=>$alias.'.created DESC'),
 			'byViews'=>array('order'=>$alias.'.views_count DESC'),
 			'byAddedToCart'=>array('order'=>$alias.'.added_to_cart_count DESC'),
+            'mainPage'=>array(
+                'condition'=>$alias.'.main_page=1',
+            ),
 		);
 	}
 
@@ -135,13 +139,13 @@ class StoreProduct extends BaseModel
 			array('price, type_id, manufacturer_id, main_category_id', 'numerical'),
 			array('is_active', 'boolean'),
 			array('use_configurations', 'boolean', 'on'=>'insert'),
-			array('quantity, availability, manufacturer_id, long_delivery,sort', 'numerical', 'integerOnly'=>true),
+			array('quantity, availability, manufacturer_id, long_delivery,sort, main_page', 'numerical', 'integerOnly'=>true),
 			array('name, price', 'required'),
 			array('url', 'LocalUrlValidator'),
 			array('name, url, meta_title, meta_keywords, meta_description, layout, view, sku, auto_decrease_quantity', 'length', 'max'=>255),
 			array('short_description, full_description, discount', 'type', 'type'=>'string'),
 			// Search
-			array('id, name, url, price, short_description, full_description, created, updated, manufacturer_id', 'safe', 'on'=>'search'),
+			array('id, name, url, price, short_description, full_description, created, updated, manufacturer_id, main_page', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -307,7 +311,8 @@ class StoreProduct extends BaseModel
 			'discount'               => Yii::t('StoreModule.core', 'Скидка'),
 			'main_category_id'       => Yii::t('StoreModule.core', 'Категория'),
 			'cities'				 => 'Регион Доставки',
-			'long_delivery'			 => 'Доставка товара 2 дня'
+			'long_delivery'			 => 'Доставка товара 2 дня',
+			'main_page'			     => 'Витрина',
 		);
 	}
 
@@ -357,6 +362,7 @@ class StoreProduct extends BaseModel
 		$criteria->compare('t.updated',$this->updated,true);
 		$criteria->compare('type_id', $this->type_id);
 		$criteria->compare('manufacturer_id', $this->manufacturer_id);
+        $criteria->compare('main_page', $this->main_page);
 
 		if (isset($params['category']) && $params['category'])
 		{

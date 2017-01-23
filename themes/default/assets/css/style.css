@@ -674,9 +674,9 @@ padding:20px 20px 0 0;
 }
 
 .yes   {
-    list-style: none; /* Убираем исходные маркеры */
-    padding: 0 10px 0 34px; /* Смещаем текст вправо */ 
-    list-style-image: url(/uploads/yes.jpg); /* Путь к изображению маркера */
+    list-style: none; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
+    padding: 0 10px 0 34px; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */ 
+    list-style-image: url(/uploads/yes.jpg); /* пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 	line-height: 2;
    }
 .page-content {
@@ -1783,7 +1783,7 @@ margin-top: 10px;
   width: 350px;
   margin: 0 0 0 50px;
   float: left;
-  overflow: hidden;
+  /*overflow: hidden;*/
   text-align: center;
 }
 .pp-left img {
@@ -2872,4 +2872,14 @@ div.flash_messages button.close:hover {
 	font-weight: bold;
 	padding:10px;
 	color:black;
+}
+
+.perror-header{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+.perror-message{
+    font-size: 16px;
+    text-align: center;
 }

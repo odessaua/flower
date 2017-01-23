@@ -45,6 +45,13 @@ return array(
 						0=>Yii::t('StoreModule.admin', 'Нет')
 					),
 				),
+                'main_page'=>array(
+                    'type'=>'dropdownlist',
+                    'items'=>array(
+                        0=>Yii::t('StoreModule.admin', 'Нет'),
+                        1=>Yii::t('StoreModule.admin', 'Да')
+                    ),
+                ),
 				'full_description'=>array(
 					'type'=>'SRichTextarea',
 				),

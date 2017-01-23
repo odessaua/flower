@@ -77,7 +77,21 @@ $this->widget('ext.sgridview.SGridView', array(
 			'linkOptions'=>array(
 				'onClick'=>'return showDuplicateProductsWindow(this);',
 			),
-		)
+		),
+        array(
+            'label'=>Yii::t('StoreModule.admin', 'Добавить в Витрину'),
+            'url'=>'#',
+            'linkOptions'=>array(
+                'onClick'=>'return setProductsMainPage(1, this);',
+            ),
+        ),
+        array(
+            'label'=>Yii::t('StoreModule.admin', 'Удалить из Витрины'),
+            'url'=>'#',
+            'linkOptions'=>array(
+                'onClick'=>'return setProductsMainPage(0, this);',
+            ),
+        ),
 	 ),
 	'columns'=>array(
 		array(
@@ -115,6 +129,12 @@ $this->widget('ext.sgridview.SGridView', array(
 			'filter'=>array(1=>Yii::t('StoreModule.admin', 'Да'), 0=>Yii::t('StoreModule.admin', 'Нет')),
 			'value'=>'$data->is_active ? Yii::t("StoreModule.admin", "Да") : Yii::t("StoreModule.admin", "Нет")'
 		),
+        array(
+            'name'=>'main_page',
+            'cssClassExpression' =>'status1',
+            'filter'=>array(1=>Yii::t('StoreModule.admin', 'Да'), 0=>Yii::t('StoreModule.admin', 'Нет')),
+            'value'=>'$data->main_page ? Yii::t("StoreModule.admin", "Да") : Yii::t("StoreModule.admin", "Нет")'
+        ),
 		// Buttons
 		array(
 			'class'=>'CButtonColumn',

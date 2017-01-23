@@ -75,7 +75,8 @@ class FrontProductController extends Controller
         		'class'       => 'comments.components.CommentBehavior',
         		'class_name'  => 'store.models.StoreProduct', // Alias to commentable model
         		'owner_title' => 'name', // Attribute name to present comment owner in admin panel
-    		)
+    		),
+            'langArray' => $langArray,
 		));
 	}
 

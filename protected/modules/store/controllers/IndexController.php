@@ -15,7 +15,7 @@ class IndexController extends Controller
 	 * Display start page
 	 */
 	public function actionIndex()
-	{	
+	{
 		$comments = Yii::app()->db->createCommand()
 		    ->select('name, text,created')
 		    ->from('Comments')
@@ -24,7 +24,8 @@ class IndexController extends Controller
 		    ->queryAll();
 		    // var_dump( Page::model()->findByPK(15));
 		$this->render('index', array(
-			'popular' => $this->getPopular(9),
+//			'popular' => $this->getPopular(9),
+			'popular' => $this->getMainPage(9),
 			'mainContent'    => Page::model()->findByPK(15),
 			'comments'=>$comments
 		));
@@ -69,6 +70,18 @@ class IndexController extends Controller
 			->byViews()
 			->findAll(array('limit'=>$limit));
 	}
+
+    /**
+     * @param $limit
+     * @return array
+     */
+    protected function getMainPage($limit)
+    {
+        return StoreProduct::model()
+            ->active()
+            ->mainPage()
+            ->findAll(array('limit'=>$limit));
+    }
 
 	/**
 	 * @param $limit

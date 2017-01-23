@@ -128,9 +128,10 @@ class CategoryController extends Controller
 		else
 		{
 			$cr=new CDbCriteria;
-			$cr->with = array(
-				'translate'=>array('together'=>true),
-			);
+//			$cr->with = array(
+//				'translate'=>array('together'=>true),
+//			);
+            $cr->with = 'translate';
                         
 			$cr->addSearchCondition('translate.name', $data);
 			$this->query->getDbCriteria()->mergeWith($cr);

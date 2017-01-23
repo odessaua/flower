@@ -38,7 +38,7 @@ class CartController extends Controller
 		$cardPrice=StoreDeliveryMethod::model()->findByAttributes(array('id'=>18))['price'];
 		
 
-		
+
 		
 		if(Yii::app()->request->isPostRequest && Yii::app()->request->getPost('create'))
 		{
@@ -72,9 +72,22 @@ class CartController extends Controller
 			'photoPrice'=>$photoPrice,
 			'cardPrice'=>$cardPrice,
 			'rate'=>$rate,
-			'symbol'=>$symbol
+			'symbol'=>$symbol,
+            'popular' => $this->getMainPage(9),
 		));
 	}
+
+    /**
+     * @param $limit
+     * @return array
+     */
+    protected function getMainPage($limit)
+    {
+        return StoreProduct::model()
+            ->active()
+            ->mainPage()
+            ->findAll(array('limit'=>$limit));
+    }
 
 	/**
 	 * Find order by secret_key and display.

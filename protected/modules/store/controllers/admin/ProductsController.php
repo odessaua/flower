@@ -393,6 +393,25 @@ class ProductsController extends SAdminController
 		echo Yii::t('StoreModule.admin', 'Изменения успешно сохранены.');
 	}
 
+    /**
+     * Mass product update main_page
+     */
+    public function actionUpdateMainPage()
+    {
+        $ids       = Yii::app()->request->getPost('ids');
+        $status    = (int)Yii::app()->request->getPost('status');
+        $models    = StoreProduct::model()->findAllByPk($ids);
+        foreach($models as $product)
+        {
+            if(in_array($status, array(0,1)))
+            {
+                $product->main_page=$status;
+                $product->save();
+            }
+        }
+        echo Yii::t('StoreModule.admin', 'Изменения успешно сохранены.');
+    }
+
 	/**
 	 * Delete products
 	 * @param array $id

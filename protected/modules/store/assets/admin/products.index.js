@@ -88,6 +88,48 @@ function setProductsStatus(status_id, el)
 }
 
 /**
+ * Update selected products main_page
+ * @param status_id
+ */
+function setProductsMainPage(status_id, el)
+{
+    // console.log($(el).attr('id'));
+    $.ajax('/admin/store/products/updateMainPage', {
+        type:"post",
+        data:{
+            YII_CSRF_TOKEN: $(el).attr('data-token'),
+            ids: $.fn.yiiGridView.getSelection('productsListGrid'),
+            status:status_id
+        },
+        success: function(data){
+            $.fn.yiiGridView.update('productsListGrid');
+            $.jGrowl(data);
+        },
+        error:function(XHR, textStatus, errorThrown){
+            var err='';
+            switch(textStatus) {
+                case 'timeout':
+                    err='The request timed out!';
+                    break;
+                case 'parsererror':
+                    err='Parser error!';
+                    break;
+                case 'error':
+                    if(XHR.status && !/^\s*$/.test(XHR.status))
+                        err='Error ' + XHR.status;
+                    else
+                        err='Error';
+                    if(XHR.responseText && !/^\s*$/.test(XHR.responseText))
+                        err=err + ': ' + XHR.responseText;
+                    break;
+            }
+            alert(err);
+        }
+    });
+    return false;
+}
+
+/**
  * Display window with all categories list.
  *
  * @param el_clicked

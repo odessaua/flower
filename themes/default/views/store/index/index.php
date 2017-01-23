@@ -26,6 +26,7 @@
 	        <!-- products (begin) -->
 	        <div class="products g-clearfix">
 	        	<?php
+                shuffle($popular);
 					foreach($popular as $p)
 						$this->renderPartial('_product', array('data'=>$p));
 				?>

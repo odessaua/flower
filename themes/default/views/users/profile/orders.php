@@ -8,12 +8,99 @@
 $this->pageTitle=Yii::t('OrdersModule.core', 'My orders');
 ?>
 <h1 class="has_background"><?php echo Yii::t('OrdersModule.core', 'My orders'); ?></h1>
+<?php
+
+?>
+    <style>
+        .blue-row{
+            background-color: #A1F0ED;
+        }
+        .yellow-row{
+            background-color: #F7F796;
+        }
+        .green-row{
+            background-color: #97F79A;
+        }
+        .blue-row > td,
+        .yellow-row > td,
+        .green-row > td{
+            padding: 10px 5px !important;
+        }
+    </style>
+
+<?php $this->widget('zii.widgets.grid.CGridView', array(
+    'dataProvider'=>$dp,
+    //'filter'=>$model,
+    'rowCssClassExpression' => function($row, $data) {
+        $row_colors = array(
+            1 => 'blue-row',
+            5 => 'green-row',
+            6 => 'yellow-row',
+        );
+        return $row_colors[(int)$data->status_id];
+    },
+    'columns'=>array(
+        array(
+            'name' => 'id',
+            'type' => 'raw',
+            'header' => Yii::t('main', 'Order №'),
+            'value'=>'CHtml::link($data->id, array("/orders/cart/view", "secret_key"=>$data->secret_key))',
+            'htmlOptions' => array('style' => 'width: 75px;'),
+        ),
+        array(
+            'name'=>'user_name',
+            'header' => Yii::t('main', 'Sender Name'),
+            'htmlOptions' => array('style' => 'width: 115px;'),
+        ),
+        array(
+            'name'=>'receiver_name',
+            'header' => Yii::t('main', 'Receiver Name'),
+            'htmlOptions' => array('style' => 'width: 115px;'),
+        ),
+        array(
+            'name'=>'datetime_del',
+            'header' => Yii::t('main', 'Delivery Date'),
+            'htmlOptions' => array('style' => 'width: 120px;'),
+        ),
+        array(
+            'name'=>'receiver_city',
+            'header' => Yii::t('main', 'Receiver City'),
+            'htmlOptions' => array('style' => 'width: 130px;'),
+        ),
+        array(
+            'type'=>'raw',
+            'name'=>'full_price',
+            'header' => Yii::t('main', 'Full price'),
+            'value'=>'StoreProduct::formatPrice($data->full_price)',
+            'htmlOptions' => array('style' => 'width: 70px;'),
+        ),
+        array(
+            'name'=>'status_id',
+            'filter'=>CHtml::listData(OrderStatus::model()->orderByPosition()->findAll(), 'id', 'name'),
+            'value'=>'$data->status_name',
+            'htmlOptions' => array('style' => 'width: 80px;'),
+        ),
+        array(
+            'name'=>'paid',
+            'header' => Yii::t('main', 'Products in order'),
+            'value'=>'OrderProduct::getProducts($data->products, ' . $langArray->id . ')',
+        )
+    ),
+)); ?>
 
 <?php
-	$this->widget('zii.widgets.grid.CGridView', array(
+	/*$this->widget('zii.widgets.grid.CGridView', array(
 		'id'           => 'ordersListGrid',
 		'dataProvider' => $orders,
 		'template'     => '{items}',
+        'rowCssClassExpression' => function($row, $data) {
+            $row_colors = array(
+                1 => 'blue-row',
+                5 => 'green-row',
+                6 => 'yellow-row',
+            );
+            return $row_colors[(int)$data->status_id];
+        },
 		'columns' => array(
 			array(
 				'name'=>'user_name',
@@ -44,5 +131,5 @@ $this->pageTitle=Yii::t('OrdersModule.core', 'My orders');
 					'value'=>'OrderProduct::getProducts($data->products)'
 				)
 		),
-	));
+	));*/
 ?>

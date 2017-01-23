@@ -21,6 +21,17 @@ echo '<ul class="breadcrumbs">
         echo Yii::t('OrdersModule.core', 'The cart is empty');
     echo CHtml::closeTag('h1');
 	echo Yii::t('OrdersModule.core', '<br><br><p>Please add products to your cart before checking out.</p>');
+    if(!empty($popular)){
+        shuffle($popular);
+?>
+<div class="products g-clearfix" style="margin: 20px auto;">
+    <?php
+    foreach($popular as $p)
+        $this->renderPartial('_product', array('data'=>$p));
+    ?>
+</div>
+<?php
+    }
     return;
 }
 ?>

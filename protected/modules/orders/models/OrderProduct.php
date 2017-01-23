@@ -52,7 +52,8 @@ class OrderProduct extends BaseModel
 	public function relations()
 	{
 		return array(
-			'order'=>array(self::BELONGS_TO, 'Order', 'order_id')
+			'order'=>array(self::BELONGS_TO, 'Order', 'order_id'),
+            'translate'=>array(self::HAS_MANY, 'StoreProductTranslate', array('object_id' => 'product_id')),
 		);
 	}
 
@@ -90,14 +91,25 @@ class OrderProduct extends BaseModel
 
 		return parent::afterSave();
 	}
-public static function getProducts($prod){
+public static function getProducts($prod, $lang = 0){
 	$products="";
 
 	foreach ($prod as $key => $value) {
+        // language
+        if(!empty($lang) && !empty($value->translate)){
+//            var_dump($value->translate);
+            foreach($value->translate as $vt){
+                if($vt->language_id == $lang){
+                    $value->name = $vt->name;
+                    break;
+                }
+            }
+        }
+
 		$tmp=unserialize($value->variants);
 		// var_dump($tmp);
 		$quantity=(!empty($tmp))?($tmp['Количество цветов']):"-";
-			$products.=$value->name."(".$value->quantity.") (".$quantity.")";				
+			$products.=$value->name."(".$value->quantity.") (".$quantity.")";
 		}
 		return $products;
 	}

@@ -33,6 +33,22 @@ foreach($ancestors as $c){
     }
 }
 
+// get Main parent category for full breadcrumbs path
+$parent_sql = 'select `spcr`.`category`, `sc`.`full_path`, `sct`.`name`
+  from `StoreProductCategoryRef` `spcr`
+  left join `StoreCategory` `sc` on `sc`.`id` = `spcr`.`category`
+  left join `StoreCategoryTranslate` `sct` on `sct`.`object_id` = `spcr`.`category`
+  where `spcr`.`product` = ' . (int)$model->id . '
+    and `spcr`.`is_main` = 1
+    and `sct`.`language_id` = ' . (int)$langArray->id . '
+  limit 1';
+$parent_command = Yii::app()->db->createCommand($parent_sql);
+$parent = $parent_command->queryRow();
+
+if(!in_array('/' . $parent['full_path'], $this->breadcrumbs)){
+    $this->breadcrumbs[$parent['name']] = '/' . $parent['full_path'];
+}
+
 $this->breadcrumbs[] = $model->name;
 
 
@@ -51,7 +67,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 
 ?>
 
-    
+
 <div class="g-clearfix">
 	
 	<?php $this->renderFile(Yii::getPathOfAlias('pages.views.pages.left_sidebar').'.php', array('popup'=>'city-product')); ?>
@@ -70,6 +86,16 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 					else
 						echo CHtml::link(CHtml::image('http://placehold.it/340x250'), '#', array('class'=>'thumbnail'));
 					?>
+                    <?php if($model->short_description): ?>
+                    <div class="number g-clearfix">
+                        <div class="sort sort-size" style="float: left;">
+                            <a class="drop-link" href="#" title=""><?=Yii::t('StoreModule.core','The composition and size')?></a>
+                            <div class="sort-popup hidden">
+                                <?=$model->short_description?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif;?>
 	            </div>
 	            <div class="pp-right">
 	                <?php echo CHtml::form(array('/orders/cart/add'))?>

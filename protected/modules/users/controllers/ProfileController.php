@@ -89,8 +89,26 @@ class ProfileController extends Controller
      // 'pagination' => array('pageSize'=>Yii::app()->params['productsPerPage']),
     )
 );
+        $model = new Order();
+        //$orders2 = $model->with('products')->findAll('t.user_id='.Yii::app()->user->getId()); // массив всех заказов с товарами
+        $model->with('products.translate');
+        $model->user_id = Yii::app()->user->getId();
+        $dp = $model->search();
+        $dp->pagination->pageSize = 20;
+//$ord = $model->findAll();foreach($ord as $row){ echo '<pre>';print_r($row->products[0]->translate);echo '</pre>';}
+
+        // Language
+        $lang= Yii::app()->language;
+        if($lang == 'ua')
+            $lang = 'uk';
+
+        $langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
+
 		$this->render('orders', array(
 			'orders'=>$orders,
+            'model' => $model,
+            'dp' => $dp,
+            'langArray' => $langArray,
 			// 'products'=>$product,
 		));
 	}
