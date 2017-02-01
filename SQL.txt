@@ -1,0 +1,24 @@
+2017-02-01:
+CREATE TABLE `regionTranslate` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `object_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `object_id` (`object_id`),
+  KEY `language_id` (`language_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `citySeo` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `city_id` int(11) DEFAULT NULL,
+  `lang_id` int(11) DEFAULT NULL,
+  `seo_text` text,
+  `seo_keywords` text,
+  `seo_description` text,
+  PRIMARY KEY (`id`),
+  KEY `city_id` (`city_id`),
+  KEY `lang_id` (`lang_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+=================
+
