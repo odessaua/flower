@@ -43,10 +43,10 @@ $this->breadcrumbs[] = $this->model->name;
 
 <div class="g-clearfix">
 
-    <?php $this->renderFile(Yii::getPathOfAlias('pages.views.pages.left_sidebar').'.php', array('popup'=>'city-catalog')); ?>
+    <?php //$this->renderFile(Yii::getPathOfAlias('pages.views.pages.left_sidebar').'.php', array('popup'=>'city-catalog')); ?>
 
-    <!-- col-2 (begin) -->
-    <div class="col-2">
+    <!-- products (begin) -->
+    <div class="products">
         <!-- region-popup (begin) -->
         <div class="sorts">
             <div class="sort sort-reg">
@@ -158,5 +158,5 @@ $this->breadcrumbs[] = $this->model->name;
         <!-- b-page-text (end) -->
         <?php endif ?>
     </div>
-    <!-- col-2 (end) -->
+    <!-- products (end) -->
 </div>

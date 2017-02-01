@@ -40,6 +40,12 @@ $this->widget('ext.sgridview.SGridView', array(
 			'type'=>'raw',
 			'value'=>'CHtml::link(CHtml::encode($data->name), array("/store/admin/deliveryRegions/update", "id"=>$data->id))',
 		),
+        array(
+            'name' => 'region_id',
+            'type' => 'text',
+            'value' => 'City::model()->getRegionName($data->region_id)',
+            'filter' => '',
+        ),
 		'delivery',
 		'show_in_popup',
 		

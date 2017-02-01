@@ -103,7 +103,7 @@ class SCart extends CComponent
 		foreach($data as $index=>&$item)
 		{
 			$item['variant_models'] = array();
-			$item['model'] = StoreProduct::model()->findByPk($item['product_id']);
+			$item['model'] = StoreProduct::model()->with('translate')->findByPk($item['product_id']);
 
 			// Load configurable product
 			if($item['configurable_id'])

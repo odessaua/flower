@@ -70,10 +70,10 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 
 <div class="g-clearfix">
 	
-	<?php $this->renderFile(Yii::getPathOfAlias('pages.views.pages.left_sidebar').'.php', array('popup'=>'city-product')); ?>
+	<?php //$this->renderFile(Yii::getPathOfAlias('pages.views.pages.left_sidebar').'.php', array('popup'=>'city-product')); ?>
 	
-	<!-- col-2 (begin) -->
-	<div class="col-2">
+	<!-- products (begin) -->
+	<div class="products">
 	
 	    <!-- h-pp (begin) -->
 	    <div class="h-pp">
@@ -210,7 +210,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 	    </div>
 	    <!-- b-last-photos (end) -->
 <!-- 	</div> -->
-	<!-- col-2 (end) -->
+	<!-- products (end) -->
 <?php $this->renderPartial('comments.views.comment.create', array(
        	 'model'=>$model, // Commentable model instance
     	));?>

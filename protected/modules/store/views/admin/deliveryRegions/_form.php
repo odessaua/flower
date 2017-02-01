@@ -12,6 +12,10 @@ return array(
 				'name'=>array(
 					'type'=>'text',
 				),
+                'region_id' => array(
+                    'type' => 'dropdownlist',
+                    'items' => Region::model()->getRegionList(true),
+                ),
 				'delivery'=>array(
 					'type'=>'text',
 				),

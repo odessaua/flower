@@ -94,6 +94,7 @@ return array(
         'Photo price'=>'Ціна фото',
         "Your order #"=>'Ваше замовлення #',
         'Yes'=>'Так',
-        'No'=>'Ні'
-
+        'No'=>'Ні',
+        'Order details' => 'Інформація про замовлення',
+        'The recipient will be awarded' => 'Одержувач отримає',
 );

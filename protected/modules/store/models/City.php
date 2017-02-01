@@ -18,6 +18,7 @@ class City extends CActiveRecord
 	 */
 	public $translateModelName = 'CityTranslate';
 	public $name;
+    public $regions;
 	public function tableName()
 	{
 		return 'city';
@@ -32,11 +33,11 @@ class City extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name', 'required'),
-			array('delivery,show_in_popup', 'numerical'),
+			array('delivery,show_in_popup,region_id', 'numerical'),
 			array('name', 'length', 'max'=>50),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, region_id, name, phone_code, delivery', 'safe', 'on'=>'search'),
+			array('id, name, phone_code, delivery', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -59,10 +60,11 @@ class City extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'region_id' => 'Region',
+			'region_id' => 'Область',
 			'name' => 'Название региона',
 			'phone_code' => 'Phone Code',
 			'delivery' => 'Стоимость доставки ($)',
+            'show_in_popup' => 'Показать во всплывающем окне',
 		);
 	}
 	public function behaviors()
@@ -105,7 +107,7 @@ class City extends CActiveRecord
 		);
 		
 		$criteria->compare('id',$this->id);
-		$criteria->compare('region_id',$this->region_id);
+//		$criteria->compare('region_id',$this->region_id);
 		$criteria->compare('translate.name',$this->name,true);
 		$criteria->compare('phone_code',$this->phone_code,true);
 		$criteria->compare('delivery',$this->delivery);
@@ -125,4 +127,12 @@ class City extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+    public function getRegionName($region_id)
+    {
+        if(empty($this->regions)){
+            $this->regions = Region::model()->getRegionList();
+        }
+        return (!empty($this->regions[$region_id])) ? $this->regions[$region_id] : '';
+    }
 }

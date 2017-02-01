@@ -18,10 +18,10 @@
 	        </div>
 	    </div>
 	
-	    <?php $this->renderFile(Yii::getPathOfAlias('pages.views.pages.left_sidebar').'.php'); ?>
+	    <?php //$this->renderFile(Yii::getPathOfAlias('pages.views.pages.left_sidebar').'.php'); ?>
 	
-	    <!-- col-12 (begin) -->
-	    <div class="col-12">
+	    <!-- col-1 (begin)  -->
+	    <div class="col-1">
 	
 	        <!-- products (begin) -->
 	        <div class="products g-clearfix">
@@ -39,7 +39,7 @@
 	        </div>
 	        <!-- b-page-text (end) -->
 	    </div>
-	    <!-- col-12 (end) -->
+	    <!-- col-1 (end) -->
 	</div>
 	<!-- col-1 (end) -->
 	

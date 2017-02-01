@@ -158,7 +158,7 @@
         </div>
 
         <div class="cart-col">
-            <div class="sub-title"><?=Yii::t('OrdersModule.core','The recipient will be awarded:')?></div>
+            <div class="sub-title"><?=Yii::t('OrdersModule.core','The recipient will be awarded')?>:</div>
         <ul class="cart-products">
             <?php foreach($model->getOrderedProducts()->getData() as $product): ?>
                 <li>

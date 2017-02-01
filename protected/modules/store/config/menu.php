@@ -35,27 +35,39 @@ return array(
 				'url'=>Yii::app()->createUrl('store/admin/deliveryRegions'),
 				'position'=>5
 			),
+
+            array(
+                'label'=>Yii::t('StoreModule.admin', 'Области Украины'),
+                'url'=>Yii::app()->createUrl('store/admin/region'),
+                'position'=>6
+            ),
+
+            array(
+                'label'=>Yii::t('StoreModule.admin', 'SEO для городов'),
+                'url'=>Yii::app()->createUrl('store/admin/citySeo'),
+                'position'=>7
+            ),
 		
 			array(
 				'label'=>Yii::t('StoreModule.admin', 'Стоимость доставки'),
 				'url'=>Yii::app()->createUrl('store/admin/delivery'),
-				'position'=>6
+				'position'=>8
 			),
 
 			array(
 				'label'=>Yii::t('StoreModule.admin', 'Варианты оплаты'),
 				'url'=>Yii::app()->createUrl('store/admin/paymentMethod'),
-				'position'=>7
+				'position'=>9
 			),
 			array(
 				'label'=>Yii::t('StoreModule.admin', 'Курсы валют'),
 				'url'=>Yii::app()->createUrl('store/admin/currency'),
-				'position'=>8
+				'position'=>10
 			),
 			array(
 				'label'=>Yii::t('StoreModule.admin', 'Производители'),
 				'url'=>Yii::app()->createUrl('store/admin/manufacturer'),
-				'position'=>9
+				'position'=>11
 			),
 		),
 	),

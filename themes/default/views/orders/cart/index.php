@@ -273,7 +273,7 @@ echo '<ul class="breadcrumbs">
             <!-- data-form (end) -->
             <!-- data-form (begin) -->
             <div class="data-form">
-                <b class="title"><?=Yii::t('OrdersModule.core','Information about the sender:')?></b>
+                <b class="title">*<?=Yii::t('OrdersModule.core','Information about the sender:')?></b>
                 <div class="s2">
                     <span class="input-title"><?=Yii::t('OrdersModule.core','How to contact the sender:')?></span>
                     <?php echo CHtml::activeTextField($this->form,'name'); ?>

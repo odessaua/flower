@@ -96,6 +96,7 @@
         'Photo of delivery'=>'Фото доставки',
         'Your order #'=>'Ваш заказ #',
         'Yes'=>'Да',
-        'No'=>'Нет'
-
+        'No'=>'Нет',
+        'Order details' => 'Информация о заказе',
+         'The recipient will be awarded' => 'Получатель получит',
      );
