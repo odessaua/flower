@@ -83,6 +83,10 @@ class ProductsController extends SAdminController
 
 		$form = new STabbedForm('application.modules.store.views.admin.products.productForm', $model);
 
+        // дополнительные фото товаров
+        Yii::import( "xupload.models.XUploadForm" );
+        $photos = new XUploadForm;
+
 		// Set additional tabs
 		$form->additionalTabs = array(
 			Yii::t('StoreModule.admin','Дополнительные категории') => $this->renderPartial('_tree', array('model'=>$model), true),
@@ -90,7 +94,7 @@ class ProductsController extends SAdminController
 				'exclude'=>$model->id,
 				'product'=>$model,
 			),true),
-			Yii::t('StoreModule.admin','Изображения')    => $this->renderPartial('_images', array('model'=>$model), true),
+			Yii::t('StoreModule.admin','Изображения')    => $this->renderPartial('_images', array('model'=>$model, 'photos'=>$photos), true),
 			//Yii::t('StoreModule.admin','Характеристики') => $this->renderPartial('_attributes', array('model'=>$model), true),
 			Yii::t('StoreModule.admin','Варианты') => $this->renderPartial('_variations', array('model'=>$model), true),
 			Yii::t('StoreModule.admin','Регионы доставки')         => $this->renderPartial('_comments', array('model'=>$model), true),
@@ -154,8 +158,145 @@ class ProductsController extends SAdminController
 		$this->render('update', array(
 			'model'=>$model,
 			'form'=>$form,
+            'photos'=>$photos,
 		));
 	}
+
+    public function actionUpload( ) {
+        Yii::import( "xupload.models.XUploadForm" );
+        //Here we define the paths where the files will be stored temporarily
+        $path = realpath( Yii::app( )->getBasePath( )."/../uploads/products/_tmp/" )."/";                   // images path here
+        $thumbs_path = realpath( Yii::app( )->getBasePath( )."/../uploads/products/_thumbs/" )."/";         // images path here
+        $publicPath = Yii::app( )->getBaseUrl( )."/uploads/products/_tmp/";                                 // images path here
+        $publicThumbsPath = Yii::app( )->getBaseUrl( )."/uploads/products/_thumbs/";                        // images path here
+        $existing_path = realpath( Yii::app( )->getBasePath( )."/../uploads/products/" )."/";               // images path here
+        $existing_thumbs_path = "/uploads/products/_thumbs/";
+
+        //This is for IE which doens't handle 'Content-type: application/json' correctly
+        header( 'Vary: Accept' );
+        if( isset( $_SERVER['HTTP_ACCEPT'] )
+            && (strpos( $_SERVER['HTTP_ACCEPT'], 'application/json' ) !== false) ) {
+            header( 'Content-type: application/json' );
+        } else {
+            header( 'Content-type: text/plain' );
+        }
+
+        //Here we check if we are deleting and uploaded file
+        if( isset( $_GET["_method"] ) ) {
+            if( $_GET["_method"] == "delete" ) {
+                if( $_GET["file"][0] !== '.' ) {
+                    $file = $path.$_GET["file"];
+                    if( is_file( $file ) ) {
+                        unlink( $file );
+                    }
+                    // delete thumbnail file too
+                    $thumb_file = $thumbs_path.$_GET['file'];
+                    if(is_file($thumb_file)){
+                        unlink($thumb_file);
+                    }
+                    // delete existing file
+                    $existing_file = $existing_path.$_GET['file'];
+                    if(is_file($existing_file)){
+                        unlink($existing_file);
+                        Image::model()->deleteAllByAttributes(array('source_filename' => $_GET['file']));
+                    }
+                }
+                echo json_encode( true );
+            }
+            elseif ($_GET["_method"] == "list")
+            {
+                $intProductId = $_GET['id'];
+
+                $objProductImages = Image::model()->findAllByAttributes(array('product_id' => $intProductId));
+                if ($objProductImages !== null)
+                {
+                    $arrProductImages = array();
+                    foreach ($objProductImages as $objProductImage)
+                    {
+                        $arrProductImages[] = array(
+                            "name" => $objProductImage->name,
+                            "id" => $objProductImage->getPrimaryKey(),
+                            "type" => $objProductImage->mime,
+                            "size" => $objProductImage->size,
+                            "url" => $objProductImage->source,
+                            "thumbnail_url" => $existing_thumbs_path . $objProductImage->source_filename,
+                            "delete_url" => $this->createUrl("upload", array("_method" => "delete", "file" => $objProductImage->source_filename)),
+                            "delete_type" => "POST",
+                        );
+                    }
+                    echo json_encode($arrProductImages);
+                }
+            }
+        } else {
+            $model = new XUploadForm;
+            $model->file = CUploadedFile::getInstance( $model, 'file' );
+            //We check that the file was successfully uploaded
+            if( $model->file !== null ) {
+                //Grab some data
+                $model->mime_type = $model->file->getType( );
+                $model->size = $model->file->getSize( );
+                $model->name = $model->file->getName( );
+                //(optional) Generate a random name for our file
+                $filename = md5( Yii::app( )->user->id.microtime( ).$model->name);
+                $filename .= ".".$model->file->getExtensionName( );
+                if( $model->validate( ) ) {
+                    //Move our file to our temporary dir
+                    $model->file->saveAs( $path.$filename );
+                    @chmod( $path.$filename, 0777 );
+                    //here you can also generate the image versions you need
+                    //using something like PHPThumb
+                    // Image extension create thumb
+                    $image = Yii::app()->image->load($path . $filename);
+                    $image->resize(200, 200)->quality(90)->sharpen(20);
+                    // $image->save(); // or
+                    $image->save($thumbs_path . $filename);
+
+                    //Now we need to save this path to the user's session
+                    if( Yii::app( )->user->hasState( 'images' ) ) {
+                        $userImages = Yii::app( )->user->getState( 'images' );
+                    } else {
+                        $userImages = array();
+                    }
+                    $userImages[] = array(
+                        "path" => $path.$filename,
+                        //the same file or a thumb version that you generated
+                        "thumb" => $path.$filename,
+                        "filename" => $filename,
+                        'size' => $model->size,
+                        'mime' => $model->mime_type,
+                        'name' => $model->name,
+                    );
+                    Yii::app( )->user->setState( 'images', $userImages );
+
+                    //Now we need to tell our widget that the upload was succesfull
+                    //We do so, using the json structure defined in
+                    // https://github.com/blueimp/jQuery-File-Upload/wiki/Setup
+                    echo json_encode( array( array(
+                        "name" => $model->name,
+                        "type" => $model->mime_type,
+                        "size" => $model->size,
+                        "url" => $publicPath.$filename,
+                        "thumbnail_url" => $publicThumbsPath . $filename,                        // thumbs path here
+                        "delete_url" => $this->createUrl( "upload", array(
+                            "_method" => "delete",
+                            "file" => $filename
+                        ) ),
+                        "delete_type" => "POST"
+                    ) ) );
+                } else {
+                    //If the upload failed for some reason we log some data and let the widget know
+                    echo json_encode( array(
+                        array( "error" => $model->getErrors( 'file' ),
+                        ) ) );
+                    Yii::log( "XUploadAction: ".CVarDumper::dumpAsString( $model->getErrors( ) ),
+                        CLogger::LEVEL_ERROR, "xupload.actions.XUploadAction"
+                    );
+                }
+            } else {
+                throw new CHttpException( 500, "Could not upload file" );
+            }
+        }
+    }
 
 	protected function setCity($model, $cities)
 	{

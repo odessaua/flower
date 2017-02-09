@@ -23,7 +23,13 @@ return array(
 		// Rights module
 		'application.modules.rights.*',
 		'application.modules.rights.components.*',
+        // helpers
+        'application.helpers.*',
 	),
+
+    'aliases' => array(
+        'xupload' => 'ext.xupload',
+    ),
 	
 	'behaviors'=>array(
         'onBeginRequest' => array(
@@ -157,6 +163,13 @@ return array(
 			'class'=>'application.components.SSystemSettings'
 		),
 		'log'=>YII_DEBUG===true ? require('logging.php') : null,
+        'image'=>array(
+            'class'=>'application.extensions.image.CImageComponent',
+            // GD or ImageMagick
+            'driver'=>'GD',
+            // ImageMagick setup path
+            //'params'=>array('directory'=>'/opt/local/bin'),
+        ),
 	),
 	// application-level parameters that can be accessed
 	// using Yii::app()->params['paramName']

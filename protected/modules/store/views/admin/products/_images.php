@@ -21,7 +21,7 @@ Yii::app()->getClientScript()->registerCss('infoStyles', "
 
 // Upload button
 echo CHtml::openTag('div', array('class'=>'row'));
-echo CHtml::label(Yii::t('StoreModule.admin', 'Выберите изображения'), 'files');
+echo CHtml::label(Yii::t('StoreModule.admin', 'Выберите главное изображение'), 'files');
 	$this->widget('system.web.widgets.CMultiFileUpload', array(
 		'name'=>'StoreProductImages',
 		'model'=>$model,
@@ -95,3 +95,39 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 	'target'=>'a.pretty',
 	'config'=>array(),
 ));
+
+// xupload
+?>
+<link rel="stylesheet" href="/themes/default/assets/css/bootstrap_tb_css/bootstrap.css"/>
+<div class="row">
+<?php
+echo CHtml::label(Yii::t('StoreModule.admin', 'Выберите дополнительные изображения'), 'files');
+$this->widget( 'xupload.XUpload', array(
+        'url' => Yii::app( )->createUrl( "/admin/store/products/upload"),
+        //our XUploadForm
+        'model' => $photos,
+        //We set this for the widget to be able to target our own form
+        'htmlOptions' => array('id'=>'productUpdateForm'),
+        'attribute' => 'file',
+        'multiple' => true,
+        'autoUpload' => true,
+        //Note that we are using a custom view for our widget
+        //Thats becase the default widget includes the 'form'
+        //which we don't want here
+        //'formView' => 'application.views.somemodel._form',
+    )
+);
+?>
+</div>
+<script type="text/javascript">
+    $(window).load(function() {
+        $.getJSON('/admin/store/products/upload?_method=list&id=<?=$model->id;?>', function (result) {
+            var objForm = $('#productUpdateForm');
+            if (result && result.length) {
+                objForm.fileupload(); // !!!
+                objForm.fileupload('option', 'done').call(objForm, null, {result: result});
+                //console.log(result);
+            }
+        });
+    });
+</script>
