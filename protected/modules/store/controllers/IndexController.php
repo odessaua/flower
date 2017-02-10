@@ -27,7 +27,8 @@ class IndexController extends Controller
 //			'popular' => $this->getPopular(9),
 			'popular' => $this->getMainPage(),
 			'mainContent'    => Page::model()->findByPK(15),
-			'comments'=>$comments
+			'comments'=>$comments,
+            'city_seo' => $this->getCitySeo(),
 		));
 	}
 

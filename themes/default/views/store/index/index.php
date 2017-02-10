@@ -1,4 +1,6 @@
 <?php $slider=SSystemSlider::model()->findAll();
+$this->pageKeywords = $city_seo['keywords'];
+$this->pageDescription = $city_seo['description'];
 // var_dump($slider);
 ?>
 <div class="g-clearfix">
@@ -36,6 +38,7 @@
 	        <!-- b-page-text (begin) -->
 	        <div class="b-page-text text ">
 	            <?=$mainContent->full_description?>
+                <?= '<br>' . $city_seo['text']; ?>
 	        </div>
 	        <!-- b-page-text (end) -->
 	    </div>

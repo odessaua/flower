@@ -114,7 +114,7 @@ if(!$popup)
                             foreach ($city_chunk as $city) {
                             ?>
                             <li>
-                                <?= CHtml::link($city['name'], CSlug::url_slug($city['ename'])); ?>
+                                <?= CHtml::link($city['name'], '/' . CSlug::url_slug($city['ename'])); ?>
                             </li>
                             <?php
                             }

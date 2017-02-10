@@ -167,7 +167,8 @@ class CategoryController extends Controller
 
 		$this->render($view, array(
 			'provider'=>$this->provider,
-			'itemView'=>(isset($_GET['view']) && $_GET['view']==='wide') ? '_product_wide' : '_product'
+			'itemView'=>(isset($_GET['view']) && $_GET['view']==='wide') ? '_product_wide' : '_product',
+            'city_seo' => $this->getCitySeo(),
 		));
 	}
 

@@ -134,4 +134,30 @@ class Controller extends RController
 		return $title;
 	}
 
+    public function getCitySeo()
+    {
+        $return = array(
+            'description' => '',
+            'keywords' => '',
+            'text' => '',
+        );
+        $lang= Yii::app()->language;
+        if($lang == 'ua')
+            $lang = 'uk';
+        $langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
+        $city_name = Yii::app()->session['_city'];
+        $city_t_info = CityTranslate::model()->findByAttributes(array('name' => $city_name));
+        if(!empty($city_t_info->object_id)){
+            $city_seo = CitySeo::model()->findByAttributes(array('city_id' => $city_t_info->object_id, 'lang_id' => $langArray->id));
+            if(!empty($city_seo)){
+                $return = array(
+                    'description' => $city_seo->seo_description,
+                    'keywords' => $city_seo->seo_keywords,
+                    'text' => $city_seo->seo_text,
+                );
+            }
+        }
+        return $return;
+    }
+
 }

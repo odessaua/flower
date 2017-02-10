@@ -10,8 +10,8 @@
 
 // Set meta tags
 $this->pageTitle = ($this->model->meta_title) ? $this->model->meta_title : $this->model->name;
-$this->pageKeywords = $this->model->meta_keywords;
-$this->pageDescription = $this->model->meta_description;
+$this->pageKeywords = $this->model->meta_keywords . ', ' . $city_seo['keywords'];
+$this->pageDescription = $this->model->meta_description . ' ' . $city_seo['description'];
 $lang= Yii::app()->language;
 if($lang == 'ua')
     $lang = 'uk';
@@ -149,14 +149,15 @@ $this->breadcrumbs[] = $this->model->name;
         </div>
         <!-- sorts (end) -->
         
-        <?php if(!empty($this->model->description)): ?>
         <!-- b-page-text (begin) -->
         <div class="b-page-text text ">
+        <?php if(!empty($this->model->description)): ?>
             <h2 class="title"><?php echo CHtml::encode($this->model->name); ?></h2>
             <?php echo $this->model->description ?>
+        <?php endif ?>
+            <?= '<br>' . $city_seo['text']; ?>
         </div>
         <!-- b-page-text (end) -->
-        <?php endif ?>
     </div>
     <!-- products (end) -->
 </div>
