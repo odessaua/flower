@@ -14,6 +14,9 @@ return array(
 	array(
 		'class' => 'application.modules.store.components.SStoreCategoryUrlRule'
 	),
+    array(
+        'class' => 'application.modules.store.components.SStoreCityUrlRule'
+    ),
 	'products/search/*'                       => array('store/category/search'),
 
 		// Compare

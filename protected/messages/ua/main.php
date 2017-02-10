@@ -114,4 +114,5 @@
          'Receiver City' => 'Місто',
          'Full price' => 'Вартість',
          'Products in order' => 'Товари в замовленні',
+         'All cities with delivery' => 'Всі міста з доставкою',
      );

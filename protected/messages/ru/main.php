@@ -112,4 +112,5 @@
          'Receiver City' => 'Город',
          'Full price' => 'Стоимость',
          'Products in order' => 'Товары в заказе',
+         'All cities with delivery' => 'Все города с доставкой',
      );

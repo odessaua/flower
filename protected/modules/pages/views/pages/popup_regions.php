@@ -72,11 +72,15 @@ if(!$popup)
 	?>
     
     <div class="h-regions">
-        <div class="regions">
-            <h2 class="title"><?=Yii::t('main','Ukraine')?></h2>
-            <ul>
-            	<li>
-            		<ul>
+        <div class="regions" style="width: 100%;">
+            <h2 class="title">
+                <?=Yii::t('main','Ukraine')?>
+                <?= CHtml::link(Yii::t('main','All cities with delivery'), '/all-cities', array('class' => 'all-cities')); ?>
+            </h2>
+
+<!--            <ul>-->
+<!--            	<li>-->
+<!--            		<ul>-->
             	<?php
             	$count=0;
             	$lang= Yii::app()->language;
@@ -84,17 +88,45 @@ if(!$popup)
                         $lang = 'uk';
 
                 $langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
-            	$citys = Yii::app()->db->createCommand()
-				    ->select('ct.name,ct.object_id,c.id,ct.language_id')
+            	$cities = Yii::app()->db->createCommand()
+				    ->select('c.name as ename,ct.name,ct.object_id,c.id,ct.language_id')
 				    ->from('city c')
 				    ->join('cityTranslate ct', 'c.id=ct.object_id')
 				    ->where('ct.language_id=:id', array(':id'=>$langArray->id))
 				    ->andWhere('c.show_in_popup=1')
 					->order('ct.name, id desc')
 				    ->queryAll();
+
+                if(!empty($cities)){
+                    $parts = 3;
+                    if(sizeof($cities) >= $parts){
+                        $part_size = ceil((sizeof($cities) / $parts));
+                        $cities_chunked = array_chunk($cities, $part_size);
+                    }
+                    else{
+                        $cities_chunked[0] = $cities;
+                    }
+                    foreach ($cities_chunked as $city_chunk) {
+                        ?>
+                        <div style="width: <?=(100 / $parts);?>%; float: left;">
+                            <ul>
+                            <?php
+                            foreach ($city_chunk as $city) {
+                            ?>
+                            <li>
+                                <?= CHtml::link($city['name'], CSlug::url_slug($city['ename'])); ?>
+                            </li>
+                            <?php
+                            }
+                            ?>
+                            </ul>
+                        </div>
+                    <?php
+                    }
+                }
 				// var_dump($citys[0]['name']);
             	// var_dump($langArray->id);
-            	for($i=0;$i<count($citys);$i++){
+            	/*for($i=0;$i<count($citys);$i++){
             		// if($i==0)
             		// 	continue;
             		// if($count != 0 && $count%3 == 0){
@@ -111,8 +143,8 @@ if(!$popup)
 	                		
 	                
 
-                <?php } ?>
-            </ul>
+                <?php }*/ ?>
+<!--            </ul>-->
         </div>
     </div>
 </div>

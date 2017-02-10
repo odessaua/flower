@@ -1,4 +1,5 @@
 <?php
+//var_dump($this->uniqueid, $this->action->Id);
 	Yii::import('application.modules.users.forms.UserLoginForm');
 	Yii::import('application.modules.store.models.StoreCategory');
 
@@ -417,12 +418,12 @@
 
 
 
-<script type="text/javascript">
+<?php /*script type="text/javascript">
 $(document).ready(function(){
 	$(".regions ul li a").click(function(e){
 		e.preventDefault();
 		var city = $(this).text();
-		
+
 		$.ajax({
 			type: "GET",
 			url: "/site/changeCity",
@@ -435,7 +436,7 @@ $(document).ready(function(){
 		})
 	})
 });
-</script>
+</script*/?>
  
 </body>
 </html>

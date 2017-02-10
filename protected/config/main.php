@@ -71,6 +71,7 @@ return array(
 			'useStrictParsing'=>true,
 			'rules'=>array(
 				'/'=>'store/index/index',
+                'all-cities' => 'store/index/allcities', // added
 				'admin/auth'=>'admin/auth',
 				'admin/auth/logout'=>'admin/auth/logout',
 				'admin/<module:\w+>'=>'<module>/admin/default',

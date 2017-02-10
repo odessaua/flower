@@ -2883,3 +2883,11 @@ div.flash_messages button.close:hover {
     font-size: 16px;
     text-align: center;
 }
+.all-cities{
+    font-size: 13px;
+    margin-left: 20px;
+    text-transform: none;
+}
+.all-cities:hover{
+    text-decoration: none;
+}
