@@ -39,21 +39,28 @@
                 <li>
                     <input type="radio" name="payment" id="payment1"/>
                     <label for="payment1">
-                        <img src="/uploads/payment-visa.jpg" alt=""/>
-                        <span>Visa - <? echo StoreProduct::formatPrice($model->full_price*$rate); echo yii::t('OrdersModule.core',' UAH');?></span> 
+                        <img src="/uploads/payment-visa.jpg" alt="Visa"/>
+                        <span>VISA - <? echo StoreProduct::formatPrice($model->full_price*$rate); echo yii::t('OrdersModule.core',' UAH');?></span>
+                    </label>
+                </li>
+                <li>
+                    <input type="radio" name="payment" id="payment4"/>
+                    <label for="payment4">
+                        <img src="/uploads/payment_wfp.png" alt="WeyforPay" style="margin-right: 30px;"/>
+                        <span>WayForPay - <? echo StoreProduct::formatPrice($model->full_price*$rate); echo yii::t('OrdersModule.core',' UAH');?></span>
                     </label>
                 </li>
                 <li>
                     <input type="radio" name="payment" id="payment2"/>
                     <label for="payment2">
                         <img src="/uploads/payment-paypal.jpg" alt="Paypal" title="Paypal"/>
-                        <span>Paypal - <?echo StoreProduct::formatPrice($model->full_price); echo yii::t('OrdersModule.core',' USD');?></span>
+                        <span>PayPal - <?echo StoreProduct::formatPrice($model->full_price); echo yii::t('OrdersModule.core',' USD');?></span>
                     </label>
                 </li>
                 <li>
                     <input type="radio" name="payment" id="payment3"/>
                     <label for="payment3">
-                        <img src="/uploads/payment-card.jpg" alt=""/>
+                        <img src="/uploads/payment-card.jpg" alt="Cash"/>
                         <span><?=yii::t('OrdersModule.core','In cash')?></span>
                     </label>
                 </li>
@@ -64,12 +71,21 @@
             </div>
         </td><td><td><div></div></td>
 		<td>
+<?php
+$wfp_p_names = $wfp_p_qtys = $wfp_p_prices = array(); // инфа для WayForPay
+?>
 		<div class="cart-table-result">
 		<table  cellpadding=5 border=1>
 		<tr>
 		<th colspan="3" bgcolor="#eaeae8"><div class="sub-title"><?=Yii::t('OrdersModule.core','Your order set:')?></div></th></tr>
      
             <?php foreach($model->getOrderedProducts()->getData() as $product): ?>
+                <?php
+                // инфа для WayForPay
+                $wfp_p_names[$product->product_id] = str_replace('"', '', $product->name);
+                $wfp_p_qtys[$product->product_id] = $product->quantity;
+                $wfp_p_prices[$product->product_id] = $product->price*$rate;
+                ?>
                 <tr><td width="85px">
                     <div class="visual">
                         <?php
@@ -217,7 +233,108 @@
     <image width="282" height="100" src='/uploads/image.jpg' />
     <input type="submit" class="btn-purple" value="<?=Yii::t('main','Pay')?> ">
 </form>
-  
+
+<?php
+// WayForPay merchant info
+$merchantAccount = "test_merch_n1"; // temp
+$merchantSecretKey = "flk3409refn54t54t*FNJRET"; // temp
+$merchantDomainName = $_SERVER['HTTP_HOST'];
+$wfp_type = 'form'; // form or widget
+// merchant signature compilation
+//$orderReference = $model->id;
+$orderReference = "ord_" . $model->id; // без префикстов ругается (1112) Duplicate Order ID
+$orderDate = strtotime($model->created);
+//$orderFullPrice = $model->full_price*$rate;
+$orderFullPrice = 1; // temp
+$orderCurrency = "UAH";
+$string = $merchantAccount . ";" . $merchantDomainName . ";" . $orderReference . ";" . $orderDate . ";" . $orderFullPrice . ";" . $orderCurrency;
+$string .= (!empty($wfp_p_names)) ? ";" . implode(";", $wfp_p_names) : "";
+$string .= (!empty($wfp_p_qtys)) ? ";" . implode(";", $wfp_p_qtys) : "";
+$string .= (!empty($wfp_p_prices)) ? ";" . implode(";", $wfp_p_prices) : "";
+//var_dump($string);
+$merchantSignature = hash_hmac("md5", $string, $merchantSecretKey);
+?>
+
+<?php if($wfp_type == 'widget'): ?>
+<script id="widget-wfp-script" language="javascript" type="text/javascript" src="https://secure.wayforpay.com/server/pay-widget.js"></script>
+<script type="text/javascript">
+    var wayforpay = new Wayforpay();
+    var wfpay = function () {
+        wayforpay.run({
+                merchantAccount : "<?=$merchantAccount;?>",
+                merchantDomainName : "<?=$merchantDomainName;?>",
+                authorizationType : "SimpleSignature",
+                merchantSignature : "<?=$merchantSignature;?>",
+                orderReference : "<?=$orderReference;?>",
+                orderDate : "<?=$orderDate;?>",
+                amount : "<?=$orderFullPrice;?>",
+                currency : "<?=$orderCurrency;?>",
+                productName : [<?='"' . implode('","', $wfp_p_names) . '"';?>],
+                productPrice : [<?=implode(',', $wfp_p_prices);?>],
+                productCount : [<?=implode(',', $wfp_p_qtys);?>],
+                clientFirstName : "<?=$model->user_name;?>",
+                clientLastName : "<?='.';?>",
+                clientEmail : "<?=$model->user_email;?>",
+                clientPhone: "<?=(!empty($model->user_phone)) ? $model->user_phone : '380631234567';?>",
+                language: "<?=strtoupper(Yii::app()->language);?>",
+                returnUrl: "http://<?=$_SERVER['HTTP_HOST'];?>/cart/view/<?=$model->secret_key?>/success/"
+            },
+            function (response) {
+                // on approved
+                document.location.href = "http://<?=$_SERVER['HTTP_HOST'];?>/cart/view/<?=$model->secret_key?>/success/";
+                //console.log('Approved: '+response);
+            },
+            function (response) {
+                // on declined
+                console.log('Declined: '+response);
+            },
+            function (response) {
+                // on pending or in processing
+                console.log('Pending or in Processing: '+response);
+            }
+        );
+    }
+</script>
+<?php else: ?>
+    <form action="https://secure.wayforpay.com/pay" method="post" style="float: left;" class="wayforpay">
+        <input type="hidden" name="merchantAccount" value="<?=$merchantAccount; ?>">
+        <input type="hidden" name="merchantDomainName" value="<?=$merchantDomainName; ?>">
+        <input type="hidden" name="merchantSignature" value="<?=$merchantSignature; ?>">
+        <input type="hidden" name="merchantTransactionType" value="AUTO">
+        <input type="hidden" name="merchantTransactionSecureType" value="AUTO">
+        <input type="hidden" name="orderReference" value="<?=$orderReference; ?>">
+        <input type="hidden" name="orderDate" value="<?=$orderDate; ?>">
+        <input type="hidden" name="amount" value="<?=$orderFullPrice; ?>">
+        <input type="hidden" name="currency" value="<?=$orderCurrency; ?>">
+        <?php /*input type="hidden" name="productName[]" value="Apple iPhone 6 16GB">
+        <input type="hidden" name="productPrice[]" value="1">
+        <input type="hidden" name="productCount[]" value="1"*/?>
+        <?php
+        if(!empty($wfp_p_names)){
+            foreach ($wfp_p_names as $w_name) {
+                echo '<input type="hidden" name="productName[]" value="' . $w_name . '">' . "\n";
+            }
+        }
+        if(!empty($wfp_p_prices)){
+            foreach ($wfp_p_prices as $w_price) {
+                echo '<input type="hidden" name="productPrice[]" value="' . $w_price . '">' . "\n";
+            }
+        }
+        if(!empty($wfp_p_qtys)){
+            foreach ($wfp_p_qtys as $w_qty) {
+                echo '<input type="hidden" name="productCount[]" value="' . $w_qty . '">' . "\n";
+            }
+        }
+        ?>
+        <input type="hidden" name="clientFirstName" value="<?=$model->user_name;?>">
+        <input type="hidden" name="clientLastName" value=".">
+        <input type="hidden" name="clientPhone" value="<?=(!empty($model->user_phone)) ? $model->user_phone : '380631234567';?>">
+        <input type="hidden" name="clientEmail" value="<?=$model->user_email;?>">
+        <input type="hidden" name="returnUrl" value="http://<?=$_SERVER['HTTP_HOST'];?>/cart/view/<?=$model->secret_key?>/success/">
+        <input type="hidden" name="language" value="<?=strtoupper(Yii::app()->language);?>">
+        <button type="submit" style="visibility: hidden;" class="btn btn-special btn-color">Оплатить</button>
+    </form>
+<?php endif; ?>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -252,6 +369,8 @@ else if($($('.selected').children()[0]).attr('id')=="payment3"){
     $('.step3').removeClass('active');
 
 }
+else if($($('.selected').children()[0]).attr('id')=="payment4")
+    <?=($wfp_type == 'widget') ? 'wfpay();' . "\n" : '$(\'.wayforpay\').submit();' . "\n";?>
 })
 });
 </script>

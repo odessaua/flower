@@ -52,7 +52,7 @@ class OrderCreateForm extends CFormModel
 	public function rules()
 	{
 		return array(
-			array('name, email, country, city, receiver_name, address, phone1, datetime_delivery', 'required', 'message'=>'Заполните это поле: {attribute}'),
+			array('name, email, country, city, receiver_name, address, phone1, datetime_delivery, phone', 'required', 'message'=>'Заполните это поле: {attribute}'),
 			array('email', 'email'),
 			array('comment', 'length', 'max'=>'500'),
 			array('card_text', 'length', 'max'=>'1500'),
