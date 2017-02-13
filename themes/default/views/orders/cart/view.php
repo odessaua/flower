@@ -242,7 +242,9 @@ $merchantDomainName = $_SERVER['HTTP_HOST'];
 $wfp_type = 'form'; // form or widget
 // merchant signature compilation
 //$orderReference = $model->id;
-$orderReference = "ord_" . $model->id; // без префикстов ругается (1112) Duplicate Order ID
+//$orderReference = "ord_" . $model->id; // без префиксов ругается (1112) Duplicate Order ID
+$randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5); // length = 5
+$orderReference = $randomString . "_" . $model->id; // рандомный префикс
 $orderDate = strtotime($model->created);
 //$orderFullPrice = $model->full_price*$rate;
 $orderFullPrice = 1; // temp
