@@ -228,7 +228,7 @@ echo CHtml::link('Импорт Заказа',array('/orders/admin/orders/import'
                             'Refunded/Voided' => 'Возврат',
                             'Declined' => 'Отклонен',
                             'RefundInProcessing' => 'Возврат в обработке',
-                            'Ок' => 'Операция выполнена без ошибок',
+                            'Ok' => 'Операция выполнена без ошибок',
                             'Declined  To Card Issuer' => 'Отказ Банка эмитента проводить операцию',
                             'Bad CVV2' => 'Неверный CVV2 код',
                             'Expired card' => 'Карта просрочена или неверно указан срок действия',
