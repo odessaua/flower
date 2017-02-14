@@ -53,6 +53,7 @@ $tabs = array(
 		'deliveryMethods' => $deliveryMethods,
 		'geoinfo'	      => $geoinfo,
 		'citys'=>$citys,
+        'wfp_order' => $wfp_order,
 	), true),
 );
 

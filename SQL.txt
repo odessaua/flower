@@ -1,3 +1,31 @@
+-- 2017-02-14:
+CREATE TABLE `WfpOrder` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `order_id` int(11) DEFAULT NULL,
+  `orderReference` varchar(20) DEFAULT NULL,
+  `reason` varchar(255) DEFAULT NULL,
+  `reasonCode` int(11) DEFAULT NULL,
+  `amount` double(10,2) DEFAULT NULL,
+  `currency` varchar(10) DEFAULT NULL,
+  `createdDate` timestamp NULL DEFAULT NULL,
+  `processingDate` timestamp NULL DEFAULT NULL,
+  `cardPan` varchar(255) DEFAULT NULL,
+  `cardType` varchar(20) DEFAULT NULL,
+  `issuerBankCountry` varchar(255) DEFAULT NULL,
+  `issuerBankName` varchar(255) DEFAULT NULL,
+  `transactionStatus` varchar(255) DEFAULT NULL,
+  `authCode` varchar(255) DEFAULT NULL,
+  `refundAmount` double(10,2) DEFAULT NULL,
+  `settlementDate` varchar(50) DEFAULT NULL,
+  `settlementAmount` double(10,2) DEFAULT NULL,
+  `fee` double(10,2) DEFAULT NULL,
+  `merchantSignature` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`),
+  KEY `reason_code` (`reasonCode`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+-- ===============
+
 -- 2017-02-09:
 CREATE TABLE `image` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,

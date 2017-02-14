@@ -80,4 +80,89 @@ class SiteController extends Controller
 	{
 		$this->render('reviews');
 	}
+
+    // serviceUrl: 'http://flowers3.loc/site/wfpresponse'
+    public function actionWfpResponse()
+    {
+        $json = file_get_contents('php://input');
+        if(!empty($json)){
+//            $obj = json_decode($json, TRUE);
+//            print_r($obj);
+            $sql = "INSERT INTO `test` SET `data` = :json";
+            $command =Yii::app()->db->createCommand($sql);
+            $command->bindValue(":json", $json, PDO::PARAM_STR);
+            $command->query();
+            echo json_encode(array('status' => 'Ok', 'code' => '1100'));
+        }
+        else{
+            echo json_encode(array('status' => 'False', 'code' => '1111'));
+        }
+    }
+
+    /**
+     * Получаем и обновляем статус заказа в системе WayForPay
+     * @param $order_ref orderReference заказа в системе WayForPay
+     * @return bool
+     */
+    public function actionWfpStatus($order_ref)
+    {
+        $string = Yii::app()->params['merchantAccount'] . ";" . $order_ref;
+        $merchantSignature = hash_hmac("md5", $string, Yii::app()->params['merchantSecretKey']);
+        $data = array(
+            'transactionType' => 'CHECK_STATUS',
+            'merchantAccount' => Yii::app()->params['merchantAccount'],
+            'orderReference' => $order_ref,
+            'merchantSignature' => $merchantSignature,
+            'apiVersion' => 1,
+        );
+
+        $order_ex = explode('_', $order_ref);
+        $order_id = end($order_ex);
+
+        if( $curl = curl_init() ) {
+            curl_setopt($curl, CURLOPT_URL, 'https://api.wayforpay.com/api');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+            $out = curl_exec($curl);//var_dump($out);
+            curl_close($curl);
+
+            if(CJsn::isJson($out)){
+                //var_dump(json_decode($out, true));
+                $response = json_decode($out, true);
+                $wfp_order = WfpOrder::model()->findByAttributes(array('order_id' => $order_id));
+                if(!empty($wfp_order) && !empty($response['orderReference'])){
+                    unset($response['orderReference'], $response['merchantAccount']);
+                    $response['createdDate'] = (!empty($response['createdDate'])) ? date('Y-m-d H:i:s', $response['createdDate']) : '0000-00-00 00:00:00';
+                    $response['processingDate'] = (!empty($response['processingDate'])) ? date('Y-m-d H:i:s', $response['processingDate']) : '0000-00-00 00:00:00';
+                    WfpOrder::model()->updateByPk($wfp_order->id, $response);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Сохраняем ID заказа и orderReference в БД
+     */
+    public function actionWfpOrder()
+    {
+        if(!empty($_POST)){
+            $orderReference = Yii::app()->request->getPost('orderReference', '');
+            if(!empty($orderReference)){
+                $order_ex = explode('_', $orderReference);
+                $order_id = end($order_ex);
+                $wfp_order = WfpOrder::model()->findByAttributes(array('order_id' => $order_id));
+                if(!empty($wfp_order)) return; // сохраняем первую запись о заказе, с оригинальным order_reference
+                //WfpOrder::model()->deleteAllByAttributes(array('order_id' => $order_id));
+
+                $model = new WfpOrder();
+                $model->order_id = $order_id;
+                $model->orderReference = $orderReference;
+                $model->save();
+            }
+        }
+    }
+
 }

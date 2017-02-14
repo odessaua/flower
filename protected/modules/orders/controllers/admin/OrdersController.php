@@ -212,6 +212,9 @@ class OrdersController extends SAdminController {
 					$this->redirect(array('index'));
 			}
 		}
+
+        $this->wfpStatus($model->id); // обновляем статус заказа в системе WayForPay
+        $wfp_order = WfpOrder::model()->findByAttributes(array('order_id' => (int)$model->id)); // данные о заказе в системе WayForPay
 		
 		$this->render('update', array(
 			'deliveryMethods' => StoreDeliveryMethod::model()->applyTranslateCriteria()->orderByName()->findAll(),
@@ -220,9 +223,53 @@ class OrdersController extends SAdminController {
 			'orderPhoto' 	  =>$photo,
 			'photos' 		  =>$photos,
 			'geoinfo'	      => $geo,
-			'citys'=>$citys
+			'citys'=>$citys,
+            'wfp_order' => (!empty($wfp_order)) ? $wfp_order : null,
 		));
 	}
+
+    /**
+     * Получаем и обновляем статус заказа в системе WayForPay
+     * @param int $order_id ID заказа в системе WayForPay
+     * @return bool
+     */
+    public function wfpStatus($order_id)
+    {
+        $wfp_order = WfpOrder::model()->findByAttributes(array('order_id' => $order_id));
+        if(empty($wfp_order)) return false; // такого заказа нет в таблице
+
+        $string = Yii::app()->params['merchantAccount'] . ";" . $wfp_order->orderReference;
+        $merchantSignature = hash_hmac("md5", $string, Yii::app()->params['merchantSecretKey']);
+        $data = array(
+            'transactionType' => 'CHECK_STATUS',
+            'merchantAccount' => Yii::app()->params['merchantAccount'],
+            'orderReference' => $wfp_order->orderReference,
+            'merchantSignature' => $merchantSignature,
+            'apiVersion' => 1,
+        );
+
+        if( $curl = curl_init() ) {
+            curl_setopt($curl, CURLOPT_URL, 'https://api.wayforpay.com/api');
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+            curl_setopt($curl, CURLOPT_POST, true);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
+            $out = curl_exec($curl);//var_dump($out);
+            curl_close($curl);
+
+            if(CJsn::isJson($out)){
+                //var_dump(json_decode($out, true));
+                $response = json_decode($out, true);
+                if(!empty($response['orderReference'])){
+                    unset($response['orderReference'], $response['merchantAccount']);
+                    $response['createdDate'] = (!empty($response['createdDate'])) ? date('Y-m-d H:i:s', $response['createdDate']) : '0000-00-00 00:00:00';
+                    $response['processingDate'] = (!empty($response['processingDate'])) ? date('Y-m-d H:i:s', $response['processingDate']) : '0000-00-00 00:00:00';
+                    WfpOrder::model()->updateByPk($wfp_order->id, $response);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 	/**
 	 * Display gridview with list of products to add to order

@@ -99,7 +99,8 @@ return array(
 				'gii'=>'gii',
 				'gii/<controller:\w+>'=>'gii/<controller>',
 				'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
-			),
+                'site/wfpstatus/<order_ref:\w+>' => 'site/wfpstatus',
+            ),
 		),
 		 'db'=>array(
 		 	'connectionString'=>'mysql:host=localhost;dbname=7rosen1',
@@ -180,5 +181,7 @@ return array(
 		//'adminEmail'=>'koakumasd@gmail.com',
 		'adminPageSize'=>50,
 		'languages'=>array('ru'=>'RU', 'ua'=>'UA', 'en'=>'EN'),
+        'merchantAccount' => 'test_merch_n1',
+        'merchantSecretKey' => 'flk3409refn54t54t*FNJRET',
 	),
 );

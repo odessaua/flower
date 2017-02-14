@@ -236,8 +236,6 @@ $wfp_p_names = $wfp_p_qtys = $wfp_p_prices = array(); // инфа для WayForP
 
 <?php
 // WayForPay merchant info
-$merchantAccount = "test_merch_n1"; // temp
-$merchantSecretKey = "flk3409refn54t54t*FNJRET"; // temp
 $merchantDomainName = $_SERVER['HTTP_HOST'];
 $wfp_type = 'form'; // form or widget
 // merchant signature compilation
@@ -247,14 +245,14 @@ $randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGH
 $orderReference = $randomString . "_" . $model->id; // рандомный префикс
 $orderDate = strtotime($model->created);
 //$orderFullPrice = $model->full_price*$rate;
-$orderFullPrice = 1; // temp
+$orderFullPrice = "0.25"; // temp
 $orderCurrency = "UAH";
-$string = $merchantAccount . ";" . $merchantDomainName . ";" . $orderReference . ";" . $orderDate . ";" . $orderFullPrice . ";" . $orderCurrency;
+$string = Yii::app()->params['merchantAccount'] . ";" . $merchantDomainName . ";" . $orderReference . ";" . $orderDate . ";" . $orderFullPrice . ";" . $orderCurrency;
 $string .= (!empty($wfp_p_names)) ? ";" . implode(";", $wfp_p_names) : "";
 $string .= (!empty($wfp_p_qtys)) ? ";" . implode(";", $wfp_p_qtys) : "";
 $string .= (!empty($wfp_p_prices)) ? ";" . implode(";", $wfp_p_prices) : "";
 //var_dump($string);
-$merchantSignature = hash_hmac("md5", $string, $merchantSecretKey);
+$merchantSignature = hash_hmac("md5", $string, Yii::app()->params['merchantSecretKey']);
 ?>
 
 <?php if($wfp_type == 'widget'): ?>
@@ -263,7 +261,7 @@ $merchantSignature = hash_hmac("md5", $string, $merchantSecretKey);
     var wayforpay = new Wayforpay();
     var wfpay = function () {
         wayforpay.run({
-                merchantAccount : "<?=$merchantAccount;?>",
+                merchantAccount : "<?=Yii::app()->params['merchantAccount'];?>",
                 merchantDomainName : "<?=$merchantDomainName;?>",
                 authorizationType : "SimpleSignature",
                 merchantSignature : "<?=$merchantSignature;?>",
@@ -299,7 +297,7 @@ $merchantSignature = hash_hmac("md5", $string, $merchantSecretKey);
 </script>
 <?php else: ?>
     <form action="https://secure.wayforpay.com/pay" method="post" style="float: left;" class="wayforpay">
-        <input type="hidden" name="merchantAccount" value="<?=$merchantAccount; ?>">
+        <input type="hidden" name="merchantAccount" value="<?=Yii::app()->params['merchantAccount']; ?>">
         <input type="hidden" name="merchantDomainName" value="<?=$merchantDomainName; ?>">
         <input type="hidden" name="merchantSignature" value="<?=$merchantSignature; ?>">
         <input type="hidden" name="merchantTransactionType" value="AUTO">
@@ -333,6 +331,7 @@ $merchantSignature = hash_hmac("md5", $string, $merchantSecretKey);
         <input type="hidden" name="clientPhone" value="<?=(!empty($model->user_phone)) ? $model->user_phone : '380631234567';?>">
         <input type="hidden" name="clientEmail" value="<?=$model->user_email;?>">
         <input type="hidden" name="returnUrl" value="http://<?=$_SERVER['HTTP_HOST'];?>/cart/view/<?=$model->secret_key?>/success/">
+        <input type="hidden" name="serviceUrl" value="http://<?=$_SERVER['HTTP_HOST'];?>/site/wfpresponse">
         <input type="hidden" name="language" value="<?=strtoupper(Yii::app()->language);?>">
         <button type="submit" style="visibility: hidden;" class="btn btn-special btn-color">Оплатить</button>
     </form>
@@ -371,8 +370,15 @@ else if($($('.selected').children()[0]).attr('id')=="payment3"){
     $('.step3').removeClass('active');
 
 }
-else if($($('.selected').children()[0]).attr('id')=="payment4")
+else if($($('.selected').children()[0]).attr('id')=="payment4") {
+    // сохраняем $orderReference и ID заказа в БД
+    $.post(
+        '/site/wfporder',
+        { orderReference : '<?=$orderReference;?>' }
+    );
+    // вызываем виджет – или отправляем форму
     <?=($wfp_type == 'widget') ? 'wfpay();' . "\n" : '$(\'.wayforpay\').submit();' . "\n";?>
+}
 })
 });
 </script>
