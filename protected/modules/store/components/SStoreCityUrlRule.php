@@ -19,18 +19,11 @@ class SStoreCityUrlRule extends CBaseUrlRule
             $url=trim($params['url'],'/');
 			unset($params['city_id'], $params['url']);
 
-			$qs = '';
 			if(!empty($params))
 			{
                 $qs = http_build_query($params);
                 $url .= '?' . $qs;
-//				foreach ($params as $key=>$val)
-//					$parts[]=$key.'/'.$val;
-//
-//				$url .= '/'.implode('/', $parts);
 			}
-
-//			return $url.$this->urlSuffix;
 			return $url;
 		}
 		return false;
@@ -39,14 +32,14 @@ class SStoreCityUrlRule extends CBaseUrlRule
 	public function parseUrl($manager, $request, $pathInfo, $rawPathInfo)
 	{
 		if(empty($pathInfo))
-			return false;
+			return 'store/index';
 
 		if($this->urlSuffix)
 			$pathInfo = strtr($pathInfo, array($this->urlSuffix=>''));
 
 		foreach($this->getAllPaths() as $city_id => $path)
 		{
-			if($path !== '' && strpos($pathInfo, $path) === 0)
+			if(($path !== '') && (strlen($path) == strlen($pathInfo)) && (strpos($path, $pathInfo) !== false))
 			{
 				$_GET['url'] = $path;
                 $_GET['city_id'] = $city_id;
@@ -58,15 +51,15 @@ class SStoreCityUrlRule extends CBaseUrlRule
 			}
 		}
 
-		return false;
+        return 'store/index';
 	}
 
 	protected function getAllPaths()
 	{
-		$allPaths = Yii::app()->cache->get('SStoreCityUrlRule');
-
-		if($allPaths === false)
-		{
+//		$allPaths = Yii::app()->cache->get('SStoreCityUrlRule');
+//
+//		if($allPaths === false)
+//		{
 			$cities = Yii::app()->db->createCommand()
 				->from('city')
 				->select('id, name')
@@ -79,8 +72,8 @@ class SStoreCityUrlRule extends CBaseUrlRule
 
             }
 
-			Yii::app()->cache->set('SStoreCityUrlRule', $allPaths);
-		}
+//			Yii::app()->cache->set('SStoreCityUrlRule', $allPaths);
+//		}
 
 		return $allPaths;
 	}

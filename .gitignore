@@ -36,5 +36,5 @@ protected/data/*.db
 themes/classic/views/
 protected/config/local.php
 protected/extensions/yii-debug-toolbar
-/index.php
+#/index.php
 /TODO.txt
