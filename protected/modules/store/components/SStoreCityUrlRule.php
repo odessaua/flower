@@ -32,7 +32,7 @@ class SStoreCityUrlRule extends CBaseUrlRule
 	public function parseUrl($manager, $request, $pathInfo, $rawPathInfo)
 	{
 		if(empty($pathInfo))
-			return 'store/index';
+			return false;
 
 		if($this->urlSuffix)
 			$pathInfo = strtr($pathInfo, array($this->urlSuffix=>''));
@@ -51,7 +51,7 @@ class SStoreCityUrlRule extends CBaseUrlRule
 			}
 		}
 
-        return 'store/index';
+        return false;
 	}
 
 	protected function getAllPaths()
