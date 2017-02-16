@@ -30,21 +30,52 @@ class SiteController extends Controller
 		if (isset($_GET['term'])) {
 			$qtxt="";
 			if($lang=="ru")
-				$qtxt ="SELECT name FROM cityTranslate WHERE name LIKE :name AND language_id=1";
+				$qtxt ="SELECT object_id, name FROM cityTranslate WHERE name LIKE :name AND language_id=1";
 			elseif($lang=="en") {
-				$qtxt ="SELECT name FROM cityTranslate WHERE name LIKE :name AND language_id=9";
+				$qtxt ="SELECT object_id, name FROM cityTranslate WHERE name LIKE :name AND language_id=9";
 			}
 			elseif($lang=="ua") {
-				$qtxt ="SELECT name FROM cityTranslate WHERE name LIKE :name AND language_id=10";
+				$qtxt ="SELECT object_id, name FROM cityTranslate WHERE name LIKE :name AND language_id=10";
 			}
 			else
-				$qtxt ="SELECT name FROM city WHERE name LIKE :name";
+				$qtxt ="SELECT id as object_id, name FROM city WHERE name LIKE :name";
 			// echo $lang;
 			$command =Yii::app()->db->createCommand($qtxt);
 			$command->bindValue(":name", '%'.$_GET['term'].'%', PDO::PARAM_STR);
-			$res =$command->queryColumn();
+			//$res =$command->queryColumn();
+			$results =$command->queryAll();
 		}
-		// echo $command;
+
+        if(!empty($results)){
+            $langs = array(
+                'ru' => 1,
+                'en' => 9,
+                'ua' => 10,
+            );
+            $ids = array();
+            foreach ($results as $row) {
+                $ids[] = $row['object_id'];
+            }
+            if(!empty($ids)){
+                $sql_lang = (!empty($langs[Yii::app()->language])) ? " AND rt.language_id = " . $langs[Yii::app()->language] : "";
+                $sql = "SELECT c.id, c.region_id, rt.name as rt_name, r.name
+                        FROM city c
+                        LEFT JOIN regionTranslate rt ON rt.object_id = c.region_id " . $sql_lang . "
+                        LEFT JOIN region r ON r.id = c.region_id
+                        WHERE c.id IN (" . implode(",", $ids) . ")";
+                $comm = Yii::app()->db->createCommand($sql);
+                $rr = $comm->queryAll();
+                if(!empty($rr)){
+                    $rr = CArray::toolIndexArrayBy($rr, 'id');
+                    foreach ($results as $r_row) {
+                        $name = (!empty($rr[$r_row['object_id']]['rt_name'])) ? $rr[$r_row['object_id']]['rt_name'] : $rr[$r_row['object_id']]['name'];
+                        $res[] = $r_row['name'] . ((!empty($name)) ? ' (' . $name . ')' : '');
+                    }
+                }
+            }
+
+        }
+        // echo $command;
 		echo CJSON::encode($res);
 		Yii::app()->end();
 	}

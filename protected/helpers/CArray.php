@@ -313,4 +313,161 @@ class CArray {
 		return $object;
 	}
 
+    /*
+     * Индексирует массив по ключу
+     * $key – уникальное значение в выборке (напр. ID)
+     *
+     * @param array исходный массив для индексации
+     * @param string название поля, по которому индексируем
+     * @return array
+     */
+    public static function toolIndexArrayBy($arr, $key){
+
+        $result = array();
+        foreach($arr as $item){
+            if(is_object($item))
+                $result[$item->$key] = $item;
+            else if(is_array($item))
+                $result[$item[$key]] = $item;
+        }
+        return $result;
+    }
+
+    /**
+     * Список параметров для <select>
+     * @param $arr
+     * @param $key
+     * @param $title
+     * @return array
+     */
+    public static function for_select($arr, $key, $title){
+        $result = array();
+        foreach($arr as $item){
+            if(is_object($item))
+                $result[$item->$key] = $item->$title;
+            else if(is_array($item))
+                $result[$item[$key]] = $item[$title];
+        }
+        return $result;
+    }
+
+    /*
+     * Получение массива значений определенного поля - для WHERE IN
+     *
+     * @param array исходный массив для индексации
+     * @param string название поля, по которому индексируем
+     * @return array
+     */
+    public static function get_keys_array($arr, $key){
+        $result = array();
+        foreach($arr as $item){
+            if(is_object($item) && isset($item->$key)){
+                $result[] = $item->$key;
+            }
+            elseif(is_array($item) && isset($item[$key])){
+                $result[] = $item[$key];
+            }
+        }
+        return $result;
+    }
+
+    /*
+     * Группировка элементов массива по указанному полю $group_field
+     *
+     * @param array исходный массив для группировки
+     * @param string название поля, по которому происходит группировка
+     * @param string если $result_field указан = в группу попадают только значения этого поля
+     */
+    public static function get_grouped_array($arr, $group_field, $result_field = ''){
+        $result = array();
+        foreach($arr as $item){
+            if(is_object($item) && isset($item->$group_field)){
+                if(!empty($result_field))
+                    $result[$item->$group_field][] = $item->$result_field;// только поле
+                else
+                    $result[$item->$group_field][] = $item;// вся сторока
+            }
+            elseif(is_array($item) && isset($item[$group_field])){
+                if(!empty($result_field))
+                    $result[$item[$group_field]][] = $item[$result_field];// только поле
+                else
+                    $result[$item[$group_field]][] = $item;// вся строка
+            }
+        }
+        return $result;
+    }
+
+    /*
+     * Построение дерева
+     *
+     * @param array ссылка на массив категорий
+     * @param integer ID родительского элемента
+     * @return array
+     */
+    public static function build_tree(&$rs,$parent)
+    {
+        $out = array();
+        if (!isset($rs[$parent]))
+        {
+            return $out;
+        }
+        foreach ($rs[$parent] as $row)
+        {
+            $chidls = build_tree($rs,$row['id']);
+            if ($chidls)
+                $row['childs'] = $chidls;
+
+            $out[] = $row;
+        }
+        return $out;
+    }
+
+    public static function table_to_tree_array($arr, $mk = 'id', $sk = 'parent_id', $child = 'child') {
+        if(!$arr) {
+            return array();
+        }
+
+        $l = count($arr);
+        for($i = 0; $i < $l; $i++) {
+            $mas[ $arr[$i][$mk] ] = &$arr[$i];
+        }
+
+        foreach($mas as $k => $v) {
+            $mas[ $v[$sk] ][$child][] = &$mas[$k];
+        }
+
+        $res = array();
+        foreach($arr as $v) {
+            if(isset($v[$sk]) && $v[$sk] == 0) {
+                $res[] = $v;
+            }
+        }
+        $arr = $res;
+        return $arr;
+    }
+
+    /**
+     * Сортирока массива по нескольким полям
+     * @return mixed
+     */
+    // Usage: $sorted = array_order_by($data, 'points', SORT_DESC, 'time', SORT_ASC, 'friends', SORT_DESC);
+    public static function array_order_by()
+    {
+        $args = func_get_args();
+        $data = array_shift($args);
+        foreach ($args as $n => $field) {
+            if (is_string($field)) {
+                $tmp[$field] = array();
+                foreach ($data as $key => $row)
+                    $tmp[$field][$key] = $row[$field];
+                $args[$n] = &$tmp[$field];
+            } else {
+                $args[$n] = &$args[$n];
+            }
+        }
+        $args[] = &$data;
+        call_user_func_array('array_multisort', $args);
+        return array_pop($args);
+    }
+
 } // End arr
