@@ -181,7 +181,7 @@ return array(
 		//'adminEmail'=>'koakumasd@gmail.com',
 		'adminPageSize'=>50,
 		'languages'=>array('ru'=>'RU', 'ua'=>'UA', 'en'=>'EN'),
-        'merchantAccount' => 'test_merch_n1',
-        'merchantSecretKey' => 'flk3409refn54t54t*FNJRET',
+        'merchantAccount' => 'www_7roses_com', // www_7roses_com    test_merch_n1
+        'merchantSecretKey' => '9847dcd24b0bd78c671b11001a32ab8f109642ed', // 9847dcd24b0bd78c671b11001a32ab8f109642ed    flk3409refn54t54t*FNJRET
 	),
 );
