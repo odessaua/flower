@@ -80,7 +80,7 @@ class CitySeoController extends SAdminController
         $dataProvider=new CActiveDataProvider('City', array(
             'criteria'=>array(
 //                'condition'=>'status=1',
-                'order'=>'t.id asc',
+                //'order'=>'t.id asc',
                 'with'=>array('translate'),
             ),
             'countCriteria'=>array(
