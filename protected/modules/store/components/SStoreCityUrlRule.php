@@ -16,19 +16,22 @@ class SStoreCityUrlRule extends CBaseUrlRule
 	{
 		if($route==='store/index/city')
 		{
-			$url=trim($params['url'],'/');
-			unset($params['url']);
+            $url=trim($params['url'],'/');
+			unset($params['city_id'], $params['url']);
 
-			$parts=array();
+			$qs = '';
 			if(!empty($params))
 			{
-				foreach ($params as $key=>$val)
-					$parts[]=$key.'/'.$val;
-
-				$url .= '/'.implode('/', $parts);
+                $qs = http_build_query($params);
+                $url .= '?' . $qs;
+//				foreach ($params as $key=>$val)
+//					$parts[]=$key.'/'.$val;
+//
+//				$url .= '/'.implode('/', $parts);
 			}
 
-			return $url.$this->urlSuffix;
+//			return $url.$this->urlSuffix;
+			return $url;
 		}
 		return false;
 	}
