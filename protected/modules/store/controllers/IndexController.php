@@ -116,13 +116,21 @@ class IndexController extends Controller
 
         $langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
         $cities = Yii::app()->db->createCommand()
-            ->select('c.name as ename, ct.name,ct.object_id,c.id,ct.language_id')
+            ->select('c.name as ename, c.region_id, ct.name,ct.object_id,c.id,ct.language_id')
             ->from('city c')
             ->join('cityTranslate ct', 'c.id=ct.object_id')
             ->where('ct.language_id=:id', array(':id'=>$langArray->id))
             ->order('ct.name, id desc')
             ->queryAll();
-        $this->render('all_cities', array('cities' => $cities));
+        $cities = (!empty($cities)) ? CArray::get_grouped_array($cities, 'region_id') : array();
+        $regions = Yii::app()->db->createCommand()
+            ->select('object_id, name')
+            ->from('regionTranslate')
+            ->where('language_id=:lang', array(':lang' => $langArray->id))
+            ->order('name asc')
+            ->queryAll();
+        $regions = (!empty($regions)) ? CArray::toolIndexArrayBy($regions, 'object_id') : array();
+        $this->render('all_cities', array('cities' => $cities, 'regions' => $regions));
     }
 
     /**
