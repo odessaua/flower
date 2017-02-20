@@ -118,7 +118,8 @@ class Region extends CActiveRecord
     public function getRegionList($zero = false){
         $data = $this->findAll();
         $array = (!empty($data)) ? CHtml::listData($data, 'id', 'name') : array();
-        if($zero) $array[0] = 'Выберите область';
+        asort($array);
+        if($zero) $array[0] = '-- Выберите область --';
         return $array;
     }
 }

@@ -64,8 +64,14 @@ class CartController extends Controller
 			->orderByName()
 			->findAll();
 		// var_dump($deliveryMethods);
+        $items = Yii::app()->cart->getDataWithModels();
+        if(!empty($items)){
+            foreach ($items as $i_key => $item) {
+                $items[$i_key]['translation'] = $this->translateProductInfo($item['product_id']);
+            }
+        }
 		$this->render('index', array(
-			'items'           => Yii::app()->cart->getDataWithModels(),
+			'items'           => $items,
 			'delivery_price'=>$deliveryPrice['delivery'],
 			'totalPrice'      => Yii::app()->currency->convert(Yii::app()->cart->getTotalPrice()),
 			'deliveryMethods' => $deliveryMethods,
@@ -325,11 +331,12 @@ class CartController extends Controller
 		// Process products
 		foreach(Yii::app()->cart->getDataWithModels() as $item)
 		{
+            $translate = $this->translateProductInfo($item['model']->id);
 			$ordered_product = new OrderProduct;
 			$ordered_product->order_id        = $order->id;
 			$ordered_product->product_id      = $item['model']->id;
 			$ordered_product->configurable_id = $item['configurable_id'];
-			$ordered_product->name            = $item['model']->name;
+			$ordered_product->name            = (!empty($translate->name)) ? $translate->name : $item['model']->name;
 			$ordered_product->quantity        = $item['quantity'];
 			$ordered_product->sku             = $item['model']->sku;
 			$ordered_product->price           = StoreProduct::calculatePrices($item['model'], $item['variant_models'], $item['configurable_id']);
@@ -512,4 +519,18 @@ class CartController extends Controller
 		$mailer->Send();
 		$mailer->ClearAddresses();
 	}
+
+    public function translateProductInfo($product_id)
+    {
+        $return = array();
+        if(!empty($product_id)){
+            $lang= Yii::app()->language;
+            if($lang == 'ua')
+                $lang = 'uk';
+            $langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
+            $translate = StoreProductTranslate::model()->findByAttributes(array('language_id'=>$langArray->id,'object_id'=>$product_id));
+        }
+
+        return (!empty($translate)) ? $translate : $return;
+    }
 }

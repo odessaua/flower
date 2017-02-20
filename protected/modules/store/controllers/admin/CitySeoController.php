@@ -69,15 +69,16 @@ class CitySeoController extends SAdminController
      */
     public function actionIndex()
     {
-//        $model=new CitySeo('search');
-//        $model->unsetAttributes();  // clear any default values
-//        if(isset($_GET['CitySeo']))
-//            $model->attributes=$_GET['CitySeo'];
-//        $model = City::model()->with('translate')->findAll();
+        $model=new City('search');
+        $model->unsetAttributes();  // clear any default values
+        if(isset($_GET['City']))
+            $model->attributes=$_GET['City'];
+        //$model = CitySeo::model()->with('translate')->findAll();
 
-//        $dataProvider = $model->search();
-//        $dataProvider->pagination->pageSize = Yii::app()->settings->get('core', 'productsPerPageAdmin');
-        $dataProvider=new CActiveDataProvider('City', array(
+        $dataProvider = $model->language(1)->search();
+        $dataProvider->pagination->pageSize = Yii::app()->settings->get('core', 'productsPerPageAdmin');
+        $dataProvider->sort->attributes->name = 'translate.name';
+        /*$dataProvider=new CActiveDataProvider('City', array(
             'criteria'=>array(
 //                'condition'=>'status=1',
                 //'order'=>'t.id asc',
@@ -90,10 +91,10 @@ class CitySeoController extends SAdminController
             'pagination'=>array(
                 'pageSize'=>Yii::app()->settings->get('core', 'productsPerPageAdmin'),
             ),
-        ));
+        ));*/
 
         $this->render('admin',array(
-//            'model'=>$model,
+            'model'=>$model,
             'dataProvider'=>$dataProvider,
         ));
     }

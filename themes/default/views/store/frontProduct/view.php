@@ -3,6 +3,7 @@
  * Product view
  * @var StoreProduct $model
  * @var $this Controller
+ * @var $additional_images
  */
 // error_reporting(E_ALL);
 // ini_set('display_errors', '1');
@@ -63,6 +64,7 @@ $this->breadcrumbs[] = $model->name;
 // Fancybox ext
 $this->widget('application.extensions.fancybox.EFancyBox', array(
 	'target'=>'a.thumbnail',
+    'config' => array('cyclic' => true),
 ));
 
 ?>
@@ -78,11 +80,22 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 	    <!-- h-pp (begin) -->
 	    <div class="h-pp">
 	        <div class="g-clearfix">
+<!-- Additional images -->
+            <?php if(!empty($additional_images)): ?>
+            <div style="width: 100px; float: left;">
+                <?php foreach($additional_images as $a_key => $a_image): ?>
+                    <a href="<?=$a_image->source; ?>" class="thumbnail" rel="pthumbs">
+                        <img src="/uploads/products/_thumbs/<?= $a_image->source_filename; ?>" alt="Product <?=$model->id;?> image <?=$a_key;?>" style="max-width: 55px; max-height: 70px; border: 1px solid #E0D6D6; margin-bottom: 5px;" />
+                    </a>    
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
+<!-- /Additional images -->
 	            <div class="pp-left">
 	                <?php
 					// Main product image
 					if($model->mainImage)
-						echo CHtml::link(CHtml::image($model->mainImage->getUrl('373x373', 'resize'), $model->mainImage->title), $model->mainImage->getUrl(), array('class'=>'thumbnail'));
+						echo CHtml::link(CHtml::image($model->mainImage->getUrl('373x373', 'resize'), $model->mainImage->title), $model->mainImage->getUrl(), array('class'=>'thumbnail', 'rel' => 'pthumbs'));
 					else
 						echo CHtml::link(CHtml::image('http://placehold.it/340x250'), '#', array('class'=>'thumbnail'));
 					?>

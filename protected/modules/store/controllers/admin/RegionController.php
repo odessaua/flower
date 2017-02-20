@@ -151,7 +151,7 @@ class RegionController extends SAdminController
 		if(isset($_GET['Region']))
 			$model->attributes=$_GET['Region'];
 
-        $dataProvider = $model->search();
+        $dataProvider = $model->language(1)->search();
         $dataProvider->pagination->pageSize = Yii::app()->settings->get('core', 'productsPerPageAdmin');
 
         $this->render('admin',array(

@@ -78,8 +78,9 @@ class DeliveryRegionsController extends SAdminController {
 		if(isset($_GET['City']))
 			$model->attributes=$_GET['City'];
 		
-		$dataProvider = $model->search();
+		$dataProvider = $model->language(1)->search();
 		$dataProvider->pagination->pageSize = Yii::app()->settings->get('core', 'productsPerPageAdmin');
+        $dataProvider->sort->attributes->name = 'translate.name';
 
 		$this->render('admin',array(
 			'model'=>$model,

@@ -88,11 +88,21 @@ class SiteController extends Controller
 		{
             $city_ex = explode(' (', $city); // for entries like Ужгород (Zakarpattia Region)
 			$app->session['_city'] =  $city_ex[0];
+            // получаем object_id города
+            $trans_sql = "SELECT `object_id` FROM `cityTranslate` WHERE `name` = :name";
+            $trans_command =Yii::app()->db->createCommand($trans_sql);
+            $trans_command->bindValue(":name", $city_ex[0], PDO::PARAM_STR);
+            $trans_res = $trans_command->queryScalar();
+            // получаем название города из `city`
+            $city_sql = "SELECT `name` FROM `city` WHERE `id` = " . (int)$trans_res;
+            $city_command = Yii::app()->db->createCommand($city_sql);
+            $city_res = $city_command->queryScalar();
+            $city_url = CSlug::url_slug($city_res);
 		}else{
 			$app->session['_city'] =  'Киев';
 		}
 		
-		echo $app->session['_city'];
+		echo $app->session['_city'] . ((!empty($city_url)) ? '_' . $city_url : '');
 		//Yii::app()->controller->refresh();
 	}
 	

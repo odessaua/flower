@@ -56,7 +56,11 @@ if(!$popup)
 					data: {city : city},
 					dataType: "text",
 					success: function(data){
-					    $(".cityName").text(data);
+					    var city = data.split("_");
+					    if(city.length == 2){
+					        document.location.href="/"+city[1];
+					    }
+					    $(".cityName").text(city[0]);
 						$(".sort-popup").addClass("hidden");
 
 					}

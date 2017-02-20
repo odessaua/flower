@@ -131,7 +131,7 @@ class City extends CActiveRecord
     public function getRegionName($region_id)
     {
         if(empty($this->regions)){
-            $this->regions = Region::model()->getRegionList();
+            $this->regions = Region::model()->language(1)->getRegionList();
         }
         return (!empty($this->regions[$region_id])) ? $this->regions[$region_id] : '';
     }

@@ -68,6 +68,7 @@ class FrontProductController extends Controller
 					'limit' => 3
 				)
 			);
+        $additional_images = Image::model()->findAllByAttributes(array('product_id' => $model->id));
 		$this->render($view, array(
 			'model' => $model,
 			'photos' =>$photos,
@@ -77,6 +78,7 @@ class FrontProductController extends Controller
         		'owner_title' => 'name', // Attribute name to present comment owner in admin panel
     		),
             'langArray' => $langArray,
+            'additional_images' => $additional_images,
 		));
 	}
 

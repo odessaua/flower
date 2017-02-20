@@ -14,7 +14,7 @@ return array(
 				),
                 'region_id' => array(
                     'type' => 'dropdownlist',
-                    'items' => Region::model()->getRegionList(true),
+                    'items' => Region::model()->language(1)->getRegionList(true),
                 ),
 				'delivery'=>array(
 					'type'=>'text',

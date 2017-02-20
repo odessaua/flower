@@ -108,7 +108,8 @@ echo '<ul class="breadcrumbs">
                     </td>
                     <td>
                         <?php 
-                        echo CHtml::link(CHtml::encode($product['model']->name), array('/store/frontProduct/view', 'url'=>$product['model']->url));
+                        //echo CHtml::link(CHtml::encode($product['model']->name), array('/store/frontProduct/view', 'url'=>$product['model']->url));
+                        echo CHtml::link(CHtml::encode($product['translation']->name), array('/store/frontProduct/view', 'url'=>$product['model']->url));
 						//var_dump($product);
                         // Display variant options
                         if(!empty($product['variant_models']))

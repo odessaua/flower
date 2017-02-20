@@ -29,12 +29,24 @@ $columns = array(
 //    ),
     array(
         'class'=>'SGridIdColumn',
-        'name'=>'id'
+        'name'=>'id',
+        'filter' => ''
     ),
+//    array(
+//        'name' => 'name',
+//        'type' => 'text',
+//        'value' => 'CitySeo::model()->getCityName($data->id)',
+//        'filter' => '',
+//    ),
     array(
         'name' => 'name',
         'type' => 'text',
-        'value' => 'CitySeo::model()->getCityName($data->id)',
+        'header' => 'Город'
+    ),
+    array(
+        'name' => 'region_id',
+        'type' => 'text',
+        'value' => 'City::model()->getRegionName($data->region_id)',
         'filter' => '',
     ),
 //    array(
@@ -60,7 +72,7 @@ foreach($languages as $l_id => $lang){
 //);
 $this->widget('ext.sgridview.SGridView', array(
     'dataProvider'=>$dataProvider,
-//    'filter'=>$model,
+    'filter'=>$model,
     'columns'=>$columns,
 ));
 
