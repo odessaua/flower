@@ -86,13 +86,14 @@ class SiteController extends Controller
 		
 		if(!empty($city))
 		{
-			$app->session['_city'] =  $city;
+            $city_ex = explode(' (', $city); // for entries like Ужгород (Zakarpattia Region)
+			$app->session['_city'] =  $city_ex[0];
 		}else{
 			$app->session['_city'] =  'Киев';
 		}
 		
 		echo $app->session['_city'];
-		Yii::app()->controller->refresh();
+		//Yii::app()->controller->refresh();
 	}
 	
 	public function actionSetPaymentId()

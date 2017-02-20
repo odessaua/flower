@@ -54,12 +54,13 @@ if(!$popup)
 					type: "GET",
 					url: "/site/changeCity",
 					data: {city : city},
+					dataType: "text",
 					success: function(data){
 					    $(".cityName").text(data);
 						$(".sort-popup").addClass("hidden");
-						 
+
 					}
-				})
+				});
 	         }',
 	        'focus' =>'js: function() {
 	            return false;
