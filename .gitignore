@@ -31,7 +31,7 @@ Temporary Items
 assets/*
 !assets/.gitignore
 protected/runtime/*
-!protected/runtime/.gitignore
+protected/runtime/.gitignore
 protected/data/*.db
 themes/classic/views/
 protected/config/local.php
