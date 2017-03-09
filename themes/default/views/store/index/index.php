@@ -6,6 +6,7 @@ $this->pageDescription = $city_seo['description'];
 <div class="g-clearfix">
 	<!-- col-1 (begin) -->
 	<div class="col-1">
+        <?php if(empty($data['h1_header'])): ?>
 	    <div class="slider">
 	        <div id="slider">
 	            <ul>
@@ -19,6 +20,9 @@ $this->pageDescription = $city_seo['description'];
 	            </ul>
 	        </div>
 	    </div>
+        <?php else: ?>
+        <h1 style="margin: 20px 0 30px;"><?= $data['h1_header']; ?></h1>
+        <?php endif; ?>
 	
 	    <?php //$this->renderFile(Yii::getPathOfAlias('pages.views.pages.left_sidebar').'.php'); ?>
 	

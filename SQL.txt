@@ -6,6 +6,8 @@ ALTER TABLE `cityTranslate` ADD `firm_name` VARCHAR(255)  NULL  DEFAULT NULL  AF
 ALTER TABLE `cityTranslate` ADD `firm_address` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `firm_name`;
 ALTER TABLE `cityTranslate` ADD `firm_phone` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `firm_address`;
 ALTER TABLE `cityTranslate` ADD `firm_show` TINYINT(1)  NULL  DEFAULT '1'  AFTER `firm_phone`;
+--
+ALTER TABLE `cityTranslate` ADD `h1_header` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `firm_show`;
 -- ==============
 
 -- 2017-02-14:

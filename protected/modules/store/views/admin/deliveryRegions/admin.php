@@ -55,6 +55,12 @@ $this->widget('ext.sgridview.SGridView', array(
             'value'=>'City::model()->checkContacts($data->id)',
             'filter' => '',
         ),
+        array(
+            'name'=>'h1_header',
+            'type'=>'text',
+            'value'=>'City::model()->checkH1($data->id)',
+            'filter' => '',
+        ),
 		// Buttons
 		array(
 			'class'=>'CButtonColumn',

@@ -11,6 +11,7 @@ Yii::import('application.modules.pages.models.Page');
 class IndexController extends Controller
 {
 
+    public $index_data = array();
 	/**
 	 * Display start page
 	 */
@@ -29,6 +30,7 @@ class IndexController extends Controller
 			'mainContent'    => Page::model()->findByPK(15),
 			'comments'=>$comments,
             'city_seo' => $this->getCitySeo(),
+            'data' => $this->index_data,
 		));
 	}
 
@@ -151,6 +153,7 @@ class IndexController extends Controller
                 foreach ($city_translations as $city_t) {
                     if($city_t->language_id == $langArray->id){
                         $city_name = $city_t->name;
+                        $this->index_data = array('h1_header' => $city_t->h1_header);
                         break;
                     }
                 }
