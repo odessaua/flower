@@ -29,8 +29,12 @@ $this->pageDescription = $city_seo['description'];
 	        <div class="products g-clearfix">
 	        	<?php
                 shuffle($popular);
+                $lang= Yii::app()->language;
+                if($lang == 'ua')
+                    $lang = 'uk';
+                $langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
 					foreach($popular as $p)
-						$this->renderPartial('_product', array('data'=>$p));
+						$this->renderPartial('_product', array('data'=>$p, 'langArray' => $langArray));
 				?>
 	        </div>
 	        <!-- products (end) -->

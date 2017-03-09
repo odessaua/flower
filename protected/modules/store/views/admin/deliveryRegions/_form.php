@@ -22,6 +22,18 @@ return array(
 				'show_in_popup'=>array(
 					'type'=>'checkbox',
 				),
+                'firm_name'=>array(
+                    'type'=>'text',
+                ),
+                'firm_address'=>array(
+                    'type'=>'text',
+                ),
+                'firm_phone'=>array(
+                    'type'=>'text',
+                ),
+                'firm_show'=>array(
+                    'type'=>'checkbox',
+                ),
 			),
 		),
 		

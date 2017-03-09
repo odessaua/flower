@@ -127,7 +127,7 @@ $this->breadcrumbs[] = $this->model->name;
                     'sortableAttributes'=>array(
                         'name', 'price'
                     ),
-                                    
+                    'viewData' => array('langArray' => $langArray),
                 ));
             ?>
             

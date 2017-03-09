@@ -6,6 +6,10 @@
  * @property int $id
  * @property int $object_id
  * @property int $language_id
+ * @property string $firm_name
+ * @property string $firm_address
+ * @property string $firm_phone
+ * @property integer $firm_show
  */
 class CityTranslate extends CActiveRecord {
 

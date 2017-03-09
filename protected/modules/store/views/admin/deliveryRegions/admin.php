@@ -48,7 +48,13 @@ $this->widget('ext.sgridview.SGridView', array(
         ),
 		'delivery',
 		'show_in_popup',
-		
+        array(
+            'name'=>'firm_show',
+            'header' => 'Компания-представитель',
+            'type'=>'text',
+            'value'=>'City::model()->checkContacts($data->id)',
+            'filter' => '',
+        ),
 		// Buttons
 		array(
 			'class'=>'CButtonColumn',

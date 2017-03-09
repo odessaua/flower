@@ -17,10 +17,6 @@ $product_url = (!empty($mainCat['url']))
     ? '/' . $mainCat['url'] . '/' . $data->url . '.html'
     : array('frontProduct/view', 'url'=>$data->url);
 // product name
-$lang= Yii::app()->language;
-if($lang == 'ua')
-    $lang = 'uk';
-$langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
 $trans=Yii::app()->db->createCommand()
     ->select('name,')
     ->from('StoreProductTranslate')
