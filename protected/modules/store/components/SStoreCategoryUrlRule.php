@@ -38,6 +38,14 @@ class SStoreCategoryUrlRule extends CBaseUrlRule
 
 		foreach($this->getAllPaths() as $path)
 		{
+            // is product
+            if(($path !== '') && (strpos($pathInfo, '.html') !== false)){
+                $ex_path = explode('/', $pathInfo);
+                $_GET['url'] = str_replace('.html', '', end($ex_path));
+                return 'store/frontProduct/view';//http://flowers3.loc/product/bouquet-the-trembling-heart.html
+            }
+
+            // is category
 			if($path !== '' && strpos($pathInfo, $path) === 0)
 			{
 				$_GET['url'] = $path;

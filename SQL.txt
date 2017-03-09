@@ -1,3 +1,8 @@
+-- 2017-03-09:
+ALTER TABLE `StoreProduct` ADD `img_alt` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `main_page`;
+ALTER TABLE `StoreProduct` ADD `img_title` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `img_alt`;
+-- ==============
+
 -- 2017-02-14:
 CREATE TABLE `WfpOrder` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
