@@ -198,8 +198,8 @@ class ProductsController extends SAdminController
                     $existing_file = $existing_path.$_GET['file'];
                     if(is_file($existing_file)){
                         unlink($existing_file);
-                        Image::model()->deleteAllByAttributes(array('source_filename' => $_GET['file']));
                     }
+                    Image::model()->deleteAllByAttributes(array('source_filename' => $_GET['file']));
                 }
                 echo json_encode( true );
             }

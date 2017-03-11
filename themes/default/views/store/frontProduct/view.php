@@ -83,8 +83,12 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 <!-- Additional images -->
             <?php if(!empty($additional_images)): ?>
             <div style="width: 100px; float: left;">
+                <?php
+                $hide_add_images = ' style="display: none;"';
+                $add_images_limit = 3; // 4 real
+                ?>
                 <?php foreach($additional_images as $a_key => $a_image): ?>
-                    <a href="<?=$a_image->source; ?>" class="thumbnail" rel="pthumbs">
+                    <a href="<?=$a_image->source; ?>" class="thumbnail" rel="pthumbs" <?=($a_key > $add_images_limit) ? $hide_add_images : ''; ?>>
                         <img src="/uploads/products/_thumbs/<?= $a_image->source_filename; ?>" alt="Product <?=$model->id;?> image <?=$a_key;?>" style="max-width: 55px; max-height: 70px; border: 1px solid #E0D6D6; margin-bottom: 5px;" />
                     </a>    
                 <?php endforeach; ?>

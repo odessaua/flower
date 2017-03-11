@@ -101,7 +101,8 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 <link rel="stylesheet" href="/themes/default/assets/css/bootstrap_tb_css/bootstrap.css"/>
 <div class="row">
 <?php
-echo CHtml::label(Yii::t('StoreModule.admin', 'Выберите дополнительные изображения'), 'files');
+echo CHtml::label(Yii::t('StoreModule.admin', 'Выберите дополнительные изображения'), 'files', array('style' => 'width: 100%; font-size: 14px; font-weight: bold; margin: 20px 0;'));
+echo '<p>Оптимально: не более 4-х дополнительных изображений</p>';
 $this->widget( 'xupload.XUpload', array(
         'url' => Yii::app( )->createUrl( "/admin/store/products/upload"),
         //our XUploadForm
@@ -111,6 +112,10 @@ $this->widget( 'xupload.XUpload', array(
         'attribute' => 'file',
         'multiple' => true,
         'autoUpload' => true,
+        'options' => array(
+            'maxNumberOfFiles' => 4,
+            'limitMultiFileUploads' => 4,
+        ),
         //Note that we are using a custom view for our widget
         //Thats becase the default widget includes the 'form'
         //which we don't want here
