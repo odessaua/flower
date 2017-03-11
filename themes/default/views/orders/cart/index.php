@@ -26,8 +26,12 @@ echo '<ul class="breadcrumbs">
 ?>
 <div class="products g-clearfix" style="margin: 20px auto;">
     <?php
+    $lang= Yii::app()->language;
+    if($lang == 'ua')
+        $lang = 'uk';
+    $langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
     foreach($popular as $p)
-        $this->renderPartial('_product', array('data'=>$p));
+        $this->renderPartial('_product', array('data'=>$p, 'langArray' => $langArray));
     ?>
 </div>
 <?php

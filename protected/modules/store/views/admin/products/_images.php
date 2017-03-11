@@ -115,6 +115,7 @@ $this->widget( 'xupload.XUpload', array(
         'options' => array(
             'maxNumberOfFiles' => 4,
             'limitMultiFileUploads' => 4,
+            'fileInput' => '#XUploadForm_file',
         ),
         //Note that we are using a custom view for our widget
         //Thats becase the default widget includes the 'form'

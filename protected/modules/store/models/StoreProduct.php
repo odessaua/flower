@@ -39,6 +39,8 @@ Yii::import('application.modules.store.models.components.StoreProductImageSaver'
  * @property integer $rating
  * @property string $discount
  * @property integer $main_page
+ * @property string $img_alt
+ * @property string $img_title
  * @method StoreProduct active() Find Only active products
  * @method StoreProduct newest() Order products by creating date
  * @method StoreProduct byViews() Order by views count
@@ -142,7 +144,7 @@ class StoreProduct extends BaseModel
 			array('quantity, availability, manufacturer_id, long_delivery,sort, main_page', 'numerical', 'integerOnly'=>true),
 			array('name, price', 'required'),
 			array('url', 'LocalUrlValidator'),
-			array('name, url, meta_title, meta_keywords, meta_description, layout, view, sku, auto_decrease_quantity', 'length', 'max'=>255),
+			array('name, url, meta_title, meta_keywords, meta_description, layout, view, sku, auto_decrease_quantity, img_alt, img_title', 'length', 'max'=>255),
 			array('short_description, full_description, discount', 'type', 'type'=>'string'),
 			// Search
 			array('id, name, url, price, short_description, full_description, created, updated, manufacturer_id, main_page', 'safe', 'on'=>'search'),
@@ -313,6 +315,8 @@ class StoreProduct extends BaseModel
 			'cities'				 => 'Регион Доставки',
 			'long_delivery'			 => 'Доставка товара 2 дня',
 			'main_page'			     => 'Витрина',
+            'img_alt'                => 'Alt для фото товара',
+            'img_title'              => 'Title для фото товара',
 		);
 	}
 

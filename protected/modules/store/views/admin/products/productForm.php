@@ -52,6 +52,12 @@ return array(
                         1=>Yii::t('StoreModule.admin', 'Да')
                     ),
                 ),
+                'img_alt'=>array(
+                    'type'=>'text',
+                ),
+                'img_title'=>array(
+                    'type'=>'text',
+                ),
 				'full_description'=>array(
 					'type'=>'SRichTextarea',
 				),

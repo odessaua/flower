@@ -36,7 +36,7 @@ class DeliveryRegionsController extends SAdminController {
 		
 		if (!$model)
 			throw new CHttpException(404, Yii::t('StoreModule.admin', 'Регион доставки не найден.'));
-		
+
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -77,7 +77,7 @@ class DeliveryRegionsController extends SAdminController {
 		$model->unsetAttributes();  // clear any default values
 		if(isset($_GET['City']))
 			$model->attributes=$_GET['City'];
-		
+
 		$dataProvider = $model->language(1)->search();
 		$dataProvider->pagination->pageSize = Yii::app()->settings->get('core', 'productsPerPageAdmin');
         $dataProvider->sort->attributes->name = 'translate.name';
