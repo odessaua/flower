@@ -1,4 +1,4 @@
-	<?php
+<?php
 /**
  * Product view
  * @var StoreProduct $model
@@ -11,29 +11,23 @@
 $this->pageTitle = ($model->meta_title) ? $model->meta_title : $model->name;
 $this->pageKeywords = $model->meta_keywords;
 $this->pageDescription = $model->meta_description;
-
 // Register main script
 Yii::app()->clientScript->registerScriptFile($this->module->assetsUrl.'/product.view.js', CClientScript::POS_END);
 Yii::app()->clientScript->registerScriptFile($this->module->assetsUrl.'/product.view.configurations.js', CClientScript::POS_END);
-
 // Create breadcrumbs
-
 $lang= Yii::app()->language;
 if($lang == 'ua')
     $lang = 'uk';
-
 $langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
  $categoryTrans=StoreCategoryTranslate::model()->findAllByAttributes(array('language_id'=>$langArray->id));
 // Create breadcrumbs
 $ancestors = $this->model->mainCategory()->excludeRoot()->ancestors()->findAll();
-
 foreach($ancestors as $c){
     foreach($categoryTrans as $ct){
         if($ct->object_id==$c->id)
 	   $this->breadcrumbs[$ct->name] = $c->getViewUrl();
     }
 }
-
 // get Main parent category for full breadcrumbs path
 $parent_sql = 'select `spcr`.`category`, `sc`.`full_path`, `sct`.`name`
   from `StoreProductCategoryRef` `spcr`
@@ -45,28 +39,19 @@ $parent_sql = 'select `spcr`.`category`, `sc`.`full_path`, `sct`.`name`
   limit 1';
 $parent_command = Yii::app()->db->createCommand($parent_sql);
 $parent = $parent_command->queryRow();
-
 if(!in_array('/' . $parent['full_path'], $this->breadcrumbs)){
     $this->breadcrumbs[$parent['name']] = '/' . $parent['full_path'];
 }
-
 $this->breadcrumbs[] = $model->name;
-
-
-
 	$this->widget('zii.widgets.CBreadcrumbs', array(
         'homeLink'=>CHtml::link(Yii::t('main','Home page'), array('/store/index/index')),
 		'links'=>$this->breadcrumbs,
 	));
-
-
-
 // Fancybox ext
 $this->widget('application.extensions.fancybox.EFancyBox', array(
 	'target'=>'a.thumbnail',
     'config' => array('cyclic' => true),
 ));
-
 // images alt & title
 $img_alt = (!empty($model->img_alt)) ? $model->img_alt : $model->name;
 $img_title = (!empty($model->img_title)) ? $model->img_title : $model->name;
@@ -92,11 +77,7 @@ $img_title = (!empty($model->img_title)) ? $model->img_title : $model->name;
                 ?>
                 <?php foreach($additional_images as $a_key => $a_image): ?>
                     <a href="<?=$a_image->source; ?>" class="thumbnail" rel="pthumbs" <?=($a_key > $add_images_limit) ? $hide_add_images : ''; ?>>
-<<<<<<< HEAD
-                        <img src="/uploads/products/_thumbs/<?= $a_image->source_filename; ?>" alt="Product <?=$model->id;?> image <?=$a_key;?>" style="max-width: 55px; max-height: 70px; border: 1px solid #E0D6D6; margin-bottom: 5px;" />
-=======
                         <img src="/uploads/products/_thumbs/<?= $a_image->source_filename; ?>" alt="<?=$img_alt;?> image <?=$a_key;?>" style="max-width: 55px; max-height: 70px; border: 1px solid #E0D6D6; margin-bottom: 5px;" title="<?=$img_title; ?>  image <?=$a_key;?>" />
->>>>>>> 4ece6db54d5b4371b645d5bc986a247ca0d9f534
                     </a>    
                 <?php endforeach; ?>
             </div>
@@ -135,7 +116,6 @@ $img_title = (!empty($model->img_title)) ? $model->img_title : $model->name;
 									'class'=>'attributes'
 								),
 							));
-
 						}
 						
 	                    ?>
@@ -273,7 +253,6 @@ $img_title = (!empty($model->img_title)) ? $model->img_title : $model->name;
             <p>
                 After the transfer inform us of the fact of payment. To speed up the execution of the order, send a scanned paid receipt by e-mail or fax. Otherwise, your order will be sent for execution only upon receipt of money (2-3 banking days)
             </p>
-
             <p> <strong> Payment card Visa / MasterCard </strong> </p>
             <p>
                 In our shop you can pay by means of payment (plastic) card. <br/>
@@ -311,7 +290,6 @@ $('#submit_button').click(function(){
 		success:function(ev){console.log(ev);},
 		error:function(er){console.log(er);}
 	});
-
 });
 //
 </script>
