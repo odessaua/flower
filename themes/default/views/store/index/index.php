@@ -58,8 +58,8 @@ $this->pageDescription = $city_seo['description'];
         <?php $baner=  SSystemBaner::model()->findAll();?>
 	<div class="col-22">
 	    <div class="action">
-	        <a href="#" title="">
-	            <img width="218" heigth="282" src="<?='uploads/baners/'.$baner[2]['photo']?>" alt="" />
+	        <a href="<?= $baner[2]['url']; ?>" title="">
+	            <img width="218" heigth="282" src="<?='uploads/baners/'.$baner[2]['photo']?>" alt="Banner" />
 	        </a>
 	    </div>
 
