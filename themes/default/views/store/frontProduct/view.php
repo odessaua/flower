@@ -67,6 +67,9 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
     'config' => array('cyclic' => true),
 ));
 
+// images alt & title
+$img_alt = (!empty($model->img_alt)) ? $model->img_alt : $model->name;
+$img_title = (!empty($model->img_title)) ? $model->img_title : $model->name;
 ?>
 
 
@@ -89,7 +92,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
                 ?>
                 <?php foreach($additional_images as $a_key => $a_image): ?>
                     <a href="<?=$a_image->source; ?>" class="thumbnail" rel="pthumbs" <?=($a_key > $add_images_limit) ? $hide_add_images : ''; ?>>
-                        <img src="/uploads/products/_thumbs/<?= $a_image->source_filename; ?>" alt="Product <?=$model->id;?> image <?=$a_key;?>" style="max-width: 55px; max-height: 70px; border: 1px solid #E0D6D6; margin-bottom: 5px;" />
+                        <img src="/uploads/products/_thumbs/<?= $a_image->source_filename; ?>" alt="<?=$img_alt;?> image <?=$a_key;?>" style="max-width: 55px; max-height: 70px; border: 1px solid #E0D6D6; margin-bottom: 5px;" title="<?=$img_title; ?>  image <?=$a_key;?>" />
                     </a>    
                 <?php endforeach; ?>
             </div>
@@ -99,9 +102,9 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 	                <?php
 					// Main product image
 					if($model->mainImage)
-						echo CHtml::link(CHtml::image($model->mainImage->getUrl('373x373', 'resize'), $model->mainImage->title), $model->mainImage->getUrl(), array('class'=>'thumbnail', 'rel' => 'pthumbs'));
+                        echo CHtml::link(CHtml::image($model->mainImage->getUrl('373x373', 'resize'), $img_alt, array('title' => $img_title)), $model->mainImage->getUrl(), array('class'=>'thumbnail', 'rel' => 'pthumbs'));
 					else
-						echo CHtml::link(CHtml::image('http://placehold.it/340x250'), '#', array('class'=>'thumbnail'));
+                        echo CHtml::link(CHtml::image('http://placehold.it/340x250', $img_alt), '#', array('class'=>'thumbnail'));
 					?>
                     <?php if($model->short_description): ?>
                     <div class="number g-clearfix">

@@ -17,6 +17,9 @@ return array(
                     'type' => 'dropdownlist',
                     'items' => CitySeo::model()->getLangList(true),
                 ),
+                'seo_title'=>array(
+                    'type'=>'text',
+                ),
                 'seo_text'=>array(
                     'type'=>'textarea',
                 ),

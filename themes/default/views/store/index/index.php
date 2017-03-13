@@ -1,11 +1,19 @@
 <?php $slider=SSystemSlider::model()->findAll();
-$this->pageKeywords = $city_seo['keywords'];
-$this->pageDescription = $city_seo['description'];
+
+if(!empty($data['city_seo'])){
+    $this->pageKeywords = (!empty($city_seo['keywords'])) ? $city_seo['keywords'] : '';
+    $this->pageDescription = (!empty($city_seo['description'])) ? $city_seo['description'] : '';
+    $this->pageTitle = (!empty($city_seo['title'])) ? $city_seo['title'] : '7Roses';
+}
+else{
+    unset($city_seo);
+}
 // var_dump($slider);
 ?>
 <div class="g-clearfix">
 	<!-- col-1 (begin) -->
 	<div class="col-1">
+        <?php if(empty($data['h1_header'])): ?>
 	    <div class="slider">
 	        <div id="slider">
 	            <ul>
@@ -19,6 +27,9 @@ $this->pageDescription = $city_seo['description'];
 	            </ul>
 	        </div>
 	    </div>
+        <?php else: ?>
+        <h1 style="margin: 20px 0 30px;"><?= $data['h1_header']; ?></h1>
+        <?php endif; ?>
 	
 	    <?php //$this->renderFile(Yii::getPathOfAlias('pages.views.pages.left_sidebar').'.php'); ?>
 	
@@ -29,16 +40,26 @@ $this->pageDescription = $city_seo['description'];
 	        <div class="products g-clearfix">
 	        	<?php
                 shuffle($popular);
+                $lang= Yii::app()->language;
+                if($lang == 'ua')
+                    $lang = 'uk';
+                $langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
 					foreach($popular as $p)
-						$this->renderPartial('_product', array('data'=>$p));
+						$this->renderPartial('_product', array('data'=>$p, 'langArray' => $langArray));
 				?>
 	        </div>
 	        <!-- products (end) -->
 	
 	        <!-- b-page-text (begin) -->
 	        <div class="b-page-text text ">
-	            <?=$mainContent->full_description?>
-                <?= '<br>' . $city_seo['text']; ?>
+	            <?php
+                if(!empty($city_seo['text'])){
+                    echo $city_seo['text'];
+                }
+                elseif(!empty($mainContent->full_description)){
+                    echo $mainContent->full_description;
+                }
+                ?>
 	        </div>
 	        <!-- b-page-text (end) -->
 	    </div>
@@ -50,8 +71,8 @@ $this->pageDescription = $city_seo['description'];
         <?php $baner=  SSystemBaner::model()->findAll();?>
 	<div class="col-22">
 	    <div class="action">
-	        <a href="#" title="">
-	            <img width="218" heigth="282" src="<?='uploads/baners/'.$baner[2]['photo']?>" alt="" />
+	        <a href="<?= $baner[2]['url']; ?>" title="">
+	            <img width="218" heigth="282" src="<?='uploads/baners/'.$baner[2]['photo']?>" alt="Banner" />
 	        </a>
 	    </div>
 

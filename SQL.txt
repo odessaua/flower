@@ -1,3 +1,19 @@
+-- 2017-03-13:
+ALTER TABLE `citySeo` ADD `seo_title` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `seo_description`;
+-- ==============
+
+-- 2017-03-09:
+ALTER TABLE `StoreProduct` ADD `img_alt` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `main_page`;
+ALTER TABLE `StoreProduct` ADD `img_title` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `img_alt`;
+--
+ALTER TABLE `cityTranslate` ADD `firm_name` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `language_id`;
+ALTER TABLE `cityTranslate` ADD `firm_address` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `firm_name`;
+ALTER TABLE `cityTranslate` ADD `firm_phone` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `firm_address`;
+ALTER TABLE `cityTranslate` ADD `firm_show` TINYINT(1)  NULL  DEFAULT '1'  AFTER `firm_phone`;
+--
+ALTER TABLE `cityTranslate` ADD `h1_header` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `firm_show`;
+-- ==============
+
 -- 2017-02-14:
 CREATE TABLE `WfpOrder` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
