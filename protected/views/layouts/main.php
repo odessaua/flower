@@ -10,12 +10,15 @@
 	// jGrowl notifications
 	Yii::import('ext.jgrowl.Jgrowl');
 	Jgrowl::register();
+
+$meta_page_title = CHtml::encode($this->pageTitle);
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title><?php echo CHtml::encode($this->pageTitle) ?></title>
+	<title><?php echo $meta_page_title; ?></title>
 	<meta charset="UTF-8"/>
+    <meta name="title" content="<?php echo $meta_page_title; ?>">
 	<meta name="description" content="<?php echo CHtml::encode($this->pageDescription) ?>">
 	<meta name="keywords" content="<?php echo CHtml::encode($this->pageKeywords) ?>">
 	

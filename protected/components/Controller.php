@@ -140,6 +140,7 @@ class Controller extends RController
             'description' => '',
             'keywords' => '',
             'text' => '',
+            'title' => '7Roses',
         );
         $lang= Yii::app()->language;
         if($lang == 'ua')
@@ -154,6 +155,7 @@ class Controller extends RController
                     'description' => $city_seo->seo_description,
                     'keywords' => $city_seo->seo_keywords,
                     'text' => $city_seo->seo_text,
+                    'title' => $city_seo->seo_title,
                 );
             }
         }

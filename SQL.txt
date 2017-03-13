@@ -1,3 +1,7 @@
+-- 2017-03-13:
+ALTER TABLE `citySeo` ADD `seo_title` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `seo_description`;
+-- ==============
+
 -- 2017-03-09:
 ALTER TABLE `StoreProduct` ADD `img_alt` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `main_page`;
 ALTER TABLE `StoreProduct` ADD `img_title` VARCHAR(255)  NULL  DEFAULT NULL  AFTER `img_alt`;

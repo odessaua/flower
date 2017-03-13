@@ -1,6 +1,13 @@
 <?php $slider=SSystemSlider::model()->findAll();
-$this->pageKeywords = $city_seo['keywords'];
-$this->pageDescription = $city_seo['description'];
+
+if(!empty($data['city_seo'])){
+    $this->pageKeywords = (!empty($city_seo['keywords'])) ? $city_seo['keywords'] : '';
+    $this->pageDescription = (!empty($city_seo['description'])) ? $city_seo['description'] : '';
+    $this->pageTitle = (!empty($city_seo['title'])) ? $city_seo['title'] : '7Roses';
+}
+else{
+    unset($city_seo);
+}
 // var_dump($slider);
 ?>
 <div class="g-clearfix">
@@ -45,8 +52,14 @@ $this->pageDescription = $city_seo['description'];
 	
 	        <!-- b-page-text (begin) -->
 	        <div class="b-page-text text ">
-	            <?=$mainContent->full_description?>
-                <?= '<br>' . $city_seo['text']; ?>
+	            <?php
+                if(!empty($city_seo['text'])){
+                    echo $city_seo['text'];
+                }
+                elseif(!empty($mainContent->full_description)){
+                    echo $mainContent->full_description;
+                }
+                ?>
 	        </div>
 	        <!-- b-page-text (end) -->
 	    </div>

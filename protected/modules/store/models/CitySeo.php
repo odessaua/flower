@@ -10,6 +10,7 @@
  * @property string $seo_text
  * @property string $seo_keywords
  * @property string $seo_description
+ * @property string $seo_title
  */
 Yii::import('application.modules.store.models.*');
 Yii::import('application.modules.core.models.SSystemLanguage');
@@ -35,10 +36,10 @@ class CitySeo extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('city_id, lang_id', 'numerical', 'integerOnly'=>true),
-			array('seo_text, seo_keywords, seo_description', 'safe'),
+			array('seo_text, seo_keywords, seo_description, seo_title', 'safe'),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, city_id, lang_id, seo_text, seo_keywords, seo_description', 'safe', 'on'=>'search'),
+			array('id, city_id, lang_id, seo_text, seo_keywords, seo_description, seo_title', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -66,6 +67,7 @@ class CitySeo extends CActiveRecord
 			'seo_text' => 'Seo текст',
 			'seo_keywords' => 'Seo META-Keywords',
 			'seo_description' => 'Seo META-Description',
+			'seo_title' => 'Seo META-Title и Title страницы',
 		);
 	}
 
@@ -93,6 +95,7 @@ class CitySeo extends CActiveRecord
 		$criteria->compare('seo_text',$this->seo_text,true);
 		$criteria->compare('seo_keywords',$this->seo_keywords,true);
 		$criteria->compare('seo_description',$this->seo_description,true);
+		$criteria->compare('seo_title',$this->seo_title,true);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
