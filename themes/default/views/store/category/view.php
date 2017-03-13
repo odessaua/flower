@@ -72,7 +72,7 @@ $this->breadcrumbs[] = $this->model->name;
                 </div>
             </div>
             <div class="cost">
-                <?=Yii::t('StoreModule.core', 'Sort by price')?>($):
+                <?=Yii::t('StoreModule.core', 'Sort by price')?>(USD):
                 
                 <?php
                 $filterPrices = array(

@@ -3,6 +3,19 @@ AddDefaultCharset UTF-8
 RewriteEngine on
 RewriteCond %{HTTP_HOST} ^www.7roses.com.ua$ 
 RewriteRule ^(.*)$ http://7roses.com.ua/$1 [R=301,L]
+
+RewriteCond %{REQUEST_URI} ^(.*)//(.*)$
+RewriteRule . %1/%2 [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /{2,}
+RewriteRule ^(.*) /$1 [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
+RewriteRule ^index\.html$ http://7roses.com.ua/ [R=301,L]
+
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.php\ HTTP/
+RewriteRule ^index\.php$ http://7roses.com.ua/ [R=301,L]
+
 # if a directory or a file exists, use it directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
