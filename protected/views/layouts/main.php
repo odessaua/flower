@@ -346,7 +346,44 @@ $meta_page_title = CHtml::encode($this->pageTitle);
             <p><?=Yii::t('main','All rights reserved')?></p>
         </div>
         <div class="qmi">
-			<a href="http://qmiart.com/razrabotka-saytov/" target="_blank"><?=Yii::t('main','Development of online stores')?></a> - <?=Yii::t('main','Web studio')?> QMIart
+            <style>
+                .oocab-column{
+                    width: 300px;
+                    height: auto;
+                    float: left;
+                    margin-left: 30px;
+                }
+                .oocab-column-item{
+                    width: 100%;
+                    height: auto;
+                    padding: 0 0 15px;
+                }
+            </style>
+            <div class="oocab-column">
+                <?php
+                if(!empty($this->layout_params['city_address']) && !empty($this->layout_params['city_id'])){
+                    Yii::import('application.modules.store.models.CityTranslate');
+                    $cr = new CDbCriteria();
+                    $cr->condition = "`language_id` = " . (int)$this->language_info->id . "
+                    AND `object_id` = " . (int)$this->layout_params['city_id'] . "
+                    AND (`firm_name` != '' AND `firm_name` IS NOT NULL)";
+                    $ca_item = CityTranslate::model()->find($cr);
+                }
+                if(empty($ca_item)){
+                    $ca_item = new stdClass();
+                    $ca_item->name = Yii::t('main','Odessa');
+                    $ca_item->firm_name = '7Roses';
+                    $ca_item->firm_address = Yii::t('main','Deribasovskaya 12');
+                    $ca_item->firm_phone = '+38 048 716 54 65';
+                }
+                ?>
+                <div class="oocab-column-item">
+                    <div class="ocabci-row"><?= $ca_item->name; ?>, <?= Yii::t('main','Ukraine'); ?></div>
+                    <div class="ocabci-row"><?= Yii::t('main','Title'); ?>: <?= $ca_item->firm_name; ?></div>
+                    <div class="ocabci-row"><?= Yii::t('main','Address'); ?>: <?= $ca_item->firm_address; ?></div>
+                    <div class="ocabci-row"><?= Yii::t('main','Phone'); ?>: <?= $ca_item->firm_phone; ?></div>
+                </div>
+            </div>
         </div>
         
         <!-- menu-bottom (begin) -->
@@ -458,6 +495,6 @@ $(document).ready(function(){
 	})
 });
 </script*/?>
- 
+
 </body>
 </html>

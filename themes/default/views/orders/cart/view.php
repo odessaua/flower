@@ -1,3 +1,9 @@
+<?php
+/**
+ * Display cart
+ * @var CartController $model
+ */
+?>
 <div>
 <!-- breadcrumbs (begin) -->
     <ul class="breadcrumbs">
@@ -17,11 +23,11 @@
             <b>2</b>
             <p><?php echo Yii::t('OrdersModule.core','Checkout')?></p>
         </div>
-        <div class="step3 active">
+        <div class="step3 <?= ($model->status_id != 6) ? 'active' : ''; ?>">
             <b>3</b>
             <p><?php echo Yii::t('OrdersModule.core','Payment')?></p>
         </div>
-        <div class="step4">
+        <div class="step4 <?= ($model->status_id == 6) ? 'active' : ''; ?>">
             <b>4</b>
             <p><?php echo Yii::t('OrdersModule.core','Done')?></p>
         </div>
@@ -29,7 +35,7 @@
     <!-- steps (end) -->
 
     <h1 class="page-title"><?php echo Yii::t('OrdersModule.core','Your order')?></h1>
-
+<?php if($model->status_id != 6): ?>
     <div class="cart3 g-clearfix">
        
         <div class="data-form data-form-big">
@@ -127,11 +133,13 @@ $wfp_p_names = $wfp_p_qtys = $wfp_p_prices = array(); // инфа для WayForP
 			</table>
 			</div>
         </td>
-                        </tr></table>
-                    </div>
-                    <!-- data-form (end) -->
-                </form>
-            </div>
+        </tr>
+    </table>
+        </div>
+        <!-- data-form (end) -->
+    </form>
+</div>
+<?php elseif($model->status_id == 6): ?>
 <div class="cart4">
     <h2 class="title"><?=Yii::t('OrdersModule.core','Congratulations! Your order is accepted for processing.')?></h2>
 
@@ -199,8 +207,8 @@ $wfp_p_names = $wfp_p_qtys = $wfp_p_prices = array(); // инфа для WayForP
             </div>
         </div>
     </div>
-</div> 
-
+</div>
+<?php endif; ?>
 
 
 
@@ -340,7 +348,12 @@ $merchantSignature = hash_hmac("md5", $string, Yii::app()->params['merchantSecre
 <script type="text/javascript">
 $(document).ready(function(){
 $('.portmone').css('display','none');
-$('.cart4').css('display','none');
+<?php if($model->status_id != 6): ?>
+    $('.cart4').css('display','none');
+<?php elseif($model->status_id == 6): ?>
+    $('.cart3').css('display','none');
+    $('.cart4').css('display','block');
+<?php endif; ?>
 $('.paypal').css('display','none');
 $('.payment-list li').click(function() {
     $('.payment-list li').removeClass('selected'); // removes the "selected" class from all tabs
