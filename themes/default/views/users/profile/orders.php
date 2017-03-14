@@ -9,7 +9,15 @@ $this->pageTitle=Yii::t('OrdersModule.core', 'My orders');
 ?>
 <h1 class="has_background"><?php echo Yii::t('OrdersModule.core', 'My orders'); ?></h1>
 <?php
-
+function replaceStatus($id)
+{
+    $statuses = array(
+        1 => 'Need a pay',
+        5 => 'Delivered',
+        6 => 'Paid',
+    );
+    return (!empty($statuses[$id])) ? $statuses[$id] : 'Not Defined';
+}
 ?>
     <style>
         .blue-row{
@@ -77,7 +85,10 @@ $this->pageTitle=Yii::t('OrdersModule.core', 'My orders');
         array(
             'name'=>'status_id',
             'filter'=>CHtml::listData(OrderStatus::model()->orderByPosition()->findAll(), 'id', 'name'),
-            'value'=>'$data->status_name',
+//            'value'=>'$data->status_name',
+            'value'=>function($data){
+                return Yii::t('main', replaceStatus($data->status_id));
+            },
             'htmlOptions' => array('style' => 'width: 80px;'),
         ),
         array(

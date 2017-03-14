@@ -113,4 +113,13 @@
          'Full price' => 'Стоимость',
          'Products in order' => 'Товары в заказе',
          'All cities with delivery' => 'Все города с доставкой',
+         'Odessa' => 'Одесса',
+         'Title' => 'Название',
+         'Address' => 'Адрес',
+         'Phone' => 'Телефон',
+         'Deribasovskaya 12' => 'Дерибасовская 12',
+         'Need a pay' => 'Оплатить',
+         'Delivered' => 'Доставлен',
+         'Paid' => 'Оплачен',
+         'Not Defined' => 'Не определен',
      );

@@ -33,9 +33,16 @@ class DefaultController extends Controller
 			// Yii::app()->request->redirect($this->createUrl('index'));
 		}
 
+        // Other cities
+        Yii::import('feedback.models.CityTranslate');
+        $criteria = new CDbCriteria();
+        $criteria->condition = "`language_id` = " . (int)$this->language_info->id . " AND (`firm_name` != '' AND `firm_name` IS NOT NULL)";
+        $criteria->order = '`name` ASC';
+        $addresses = CityTranslate::model()->findAll($criteria);
+
 		$this->render('index', array(
 			'model'=>$model,
-			
+			'addresses' => $addresses,
 		));
 	}
 

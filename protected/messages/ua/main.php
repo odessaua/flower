@@ -115,4 +115,13 @@
          'Full price' => 'Вартість',
          'Products in order' => 'Товари в замовленні',
          'All cities with delivery' => 'Всі міста з доставкою',
+         'Odessa' => 'Одеса',
+         'Title' => 'Назва',
+         'Address' => 'Адреса',
+         'Phone' => 'Телефон',
+         'Deribasovskaya 12' => 'Дерибасівська 12',
+         'Need a pay' => 'Сплатити',
+         'Delivered' => 'Доставлений',
+         'Paid' => 'Оплачений',
+         'Not Defined' => 'Не визначений',
      );

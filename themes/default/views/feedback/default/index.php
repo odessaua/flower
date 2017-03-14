@@ -12,6 +12,7 @@ $this->pageTitle = Yii::t('FeedbackModule.core', 'Feedback');
         <li>&nbsp;/&nbsp;</li>
         <li><?=Yii::t('FeedbackModule.core','Feedback')?></li>
     </ul>
+<div class="" style="float: left; width: 100%;">
 <h1 class="has_background"><?php echo Yii::t('FeedbackModule.core', 'Feedback') ?></h1>
 <?=Yii::t('FeedbackModule.core','<h3>Ukrainian Flowers and Gifts delivery service - '. $_SERVER['HTTP_HOST'].'</h3>');?>
 <div class="data-form">
@@ -50,49 +51,95 @@ $this->pageTitle = Yii::t('FeedbackModule.core', 'Feedback');
 	</fieldset>
 <?php $this->endWidget(); ?>
 </div>
+
 <div class="contacts">
-<?=Yii::t('FeedbackModule.core','<h3>Our Postal Address:</h3><p>Ukraine, Odessa, <br>12, Deribasovskaya str office 25<br>')?>
-<script type="text/javascript" src="http://www.skypeassets.com/i/scom/js/skype-uri.js"></script>
-<div id="SkypeButton_Call_sevenrosesodessa_1">
- <script type="text/javascript">
- Skype.ui({
- "name": "chat",
- "element": "SkypeButton_Call_sevenrosesodessa_1",
- "participants": ["sevenrosesodessa"],
- "imageSize": 24
- });
- </script>
+    <?=Yii::t('FeedbackModule.core','<h3>Our Postal Address:</h3><br>Ukraine, Odessa, <br><br>12, Deribasovskaya str office 25<br>')?>
+    <script type="text/javascript" src="http://www.skypeassets.com/i/scom/js/skype-uri.js"></script>
+    <div id="SkypeButton_Call_sevenrosesodessa_1">
+     <script type="text/javascript">
+     Skype.ui({
+     "name": "chat",
+     "element": "SkypeButton_Call_sevenrosesodessa_1",
+     "participants": ["sevenrosesodessa"],
+     "imageSize": 24
+     });
+     </script>
+    </div>
 </div>
-<h3><?=Yii::t('FeedbackModule.core','Office opening hours')?>:</h3><br><table cellpadding=5><tr><td><?=Yii::t('FeedbackModule.core','<b>Mon</b> - <b>Sat</b>')?></td><td> 08:00-18:00 (UTC+2)</td></tr>
-<tr><td><?=Yii::t('FeedbackModule.core','<b>Sunday</b>')?></td><td> 09:00-17:00 (UTC+2)</td></tr></table>
-<script type="text/javascript">
+<div class="contacts" style="float: right;">
+    <h3><?=Yii::t('FeedbackModule.core','Office opening hours')?>:</h3><br><table cellpadding=5><tr><td><?=Yii::t('FeedbackModule.core','<b>Mon</b> - <b>Sat</b>')?></td><td> 08:00-18:00 (UTC+2)</td></tr>
+    <tr><td><?=Yii::t('FeedbackModule.core','<b>Sunday</b>')?></td><td> 09:00-17:00 (UTC+2)</td></tr></table>
+    <script type="text/javascript">
 
-//var currenttime = '<!--#config timefmt="%B %d, %Y %H:%M:%S"--><!--#echo var="DATE_LOCAL" -->' //SSI method of getting server date
-var currenttime = '<? print date("Y H:i:s", time())?>' //PHP method of getting server date
+    //var currenttime = '<!--#config timefmt="%B %d, %Y %H:%M:%S"--><!--#echo var="DATE_LOCAL" -->' //SSI method of getting server date
+    var currenttime = '<? print date("Y H:i:s", time())?>' //PHP method of getting server date
 
-///////////Stop editting here/////////////////////////////////
+    ///////////Stop editting here/////////////////////////////////
 
 
-var serverdate=new Date(currenttime)
+    var serverdate=new Date(currenttime)
 
-function padlength(what){
-var output=(what.toString().length==1)? "0"+what : what
-return output
-}
+    function padlength(what){
+    var output=(what.toString().length==1)? "0"+what : what
+    return output
+    }
 
-function displaytime(){
-serverdate.setSeconds(serverdate.getSeconds()+1)
+    function displaytime(){
+    serverdate.setSeconds(serverdate.getSeconds()+1)
 
-var timestring=padlength(serverdate.getHours())+":"+padlength(serverdate.getMinutes())+":"+padlength(serverdate.getSeconds())
-document.getElementById("servertime").innerHTML=timestring
-}
+    var timestring=padlength(serverdate.getHours())+":"+padlength(serverdate.getMinutes())+":"+padlength(serverdate.getSeconds())
+    document.getElementById("servertime").innerHTML=timestring
+    }
 
-window.onload=function(){
-setInterval("displaytime()", 1000)
-}
+    window.onload=function(){
+    setInterval("displaytime()", 1000)
+    }
 
-</script>
-<br><h3><?=Yii::t('FeedbackModule.core','Local Time in Ukraine')?>:</h3>
-<div class="contact-time"><span id="servertime"></span></div>
+    </script>
+    <br><h3><?=Yii::t('FeedbackModule.core','Local Time in Ukraine')?>:</h3>
+    <div class="contact-time"><span id="servertime"></span></div>
 
+</div>
+</div>
+<!--Other cities addresses-->
+<style>
+    .other-cities-adr-block{
+        width: 100%;
+        float: left;
+        height: auto;
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+    .ocab-column{
+        width: 300px;
+        height: 215px; /* 310 = 3 */
+        overflow-y: scroll;
+        float: left;
+        margin-left: 30px;
+    }
+    .ocab-column-item{
+        width: 100%;
+        height: auto;
+        padding: 10px 0 15px;
+        border-bottom: 1px dashed #999;
+    }
+</style>
+<div class="other-cities-adr-block">
+    <h3><?= Yii::t('FeedbackModule.core','Addresses of our representative offices in other cities'); ?></h3>
+    <div class="ocab-column">
+    <?php
+    if(!empty($addresses)):
+        foreach($addresses as $item):
+    ?>
+        <div class="ocab-column-item">
+            <div class="ocabci-row"><?= $item->name; ?>, <?= Yii::t('FeedbackModule.core','Ukraine'); ?></div>
+            <div class="ocabci-row"><?= Yii::t('FeedbackModule.core','Title'); ?>: <?= $item->firm_name; ?></div>
+            <div class="ocabci-row"><?= Yii::t('FeedbackModule.core','Address'); ?>: <?= $item->firm_address; ?></div>
+            <div class="ocabci-row"><?= Yii::t('FeedbackModule.core','Phone'); ?>: <?= $item->firm_phone; ?></div>
+        </div>
+    <?php
+        endforeach;
+    endif;
+    ?>
+    </div>
 </div>

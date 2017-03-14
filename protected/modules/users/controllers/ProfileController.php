@@ -3,8 +3,8 @@
 /**
  * Profile, order and other user data.
  */
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
+//error_reporting(E_ALL);
+//ini_set('display_errors', '1');
 class ProfileController extends Controller
 {
 

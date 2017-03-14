@@ -154,6 +154,7 @@ class IndexController extends Controller
                     if($city_t->language_id == $langArray->id){
                         $city_name = $city_t->name;
                         $this->index_data = array('h1_header' => $city_t->h1_header);
+                        $this->layout_params['city_id'] = $city_t->object_id;
                         break;
                     }
                 }
@@ -169,7 +170,7 @@ class IndexController extends Controller
             if(!empty($city_name)){
                 Yii::app()->session['_city'] = $city_name;
             }
-            $this->index_data['city_seo'] = 1;
+            $this->index_data['city_seo'] = $this->layout_params['city_address'] = 1;
         }
 //        var_dump('actionCity', $_GET, Yii::app()->session['_city'], $city_name);
         $this->actionIndex();
