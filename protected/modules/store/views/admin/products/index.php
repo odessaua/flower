@@ -5,7 +5,7 @@
  * @var StoreProduct $model
  **/
 
-$this->pageHeader = Yii::t('StoreModule.admin', 'Продукты');
+$this->pageHeader = Yii::t('StoreModule.admin', 'Товары');
 
 $this->sidebarContent = $this->renderPartial('_sidebar', array(), true);
 
@@ -17,7 +17,7 @@ Yii::app()->clientScript->registerScriptFile(
 
 $this->breadcrumbs = array(
 	'Home'=>$this->createUrl('/admin'),
-	Yii::t('StoreModule.admin', 'Продукты'),
+	Yii::t('StoreModule.admin', 'Товары'),
 );
 
 $this->topButtons = $this->widget('application.modules.admin.widgets.SAdminTopButtons', array(
@@ -25,7 +25,7 @@ $this->topButtons = $this->widget('application.modules.admin.widgets.SAdminTopBu
 	'elements'=>array(
 		'create'=>array(
 			'link'=>$this->createUrl('create'),
-			'title'=>Yii::t('StoreModule.admin', 'Создать продукт'),
+			'title'=>Yii::t('StoreModule.admin', 'Создать товар'),
 			'options'=>array(
 				'icons'=>array('primary'=>'ui-icon-plus')
 			)
