@@ -17,7 +17,13 @@ class IndexController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$comments = Yii::app()->db->createCommand()
+        $main_page = Yii::app()->db->createCommand()
+            ->select('p.url, pt.*')
+            ->from('Page p')
+            ->join('PageTranslate pt', 'pt.object_id=p.id')
+            ->where('p.url=:purl AND pt.language_id=:lid AND p.status=:pst', array(':purl'=>'main', ':lid'=>$this->language_info->id, ':pst'=>'published'))
+            ->queryRow();
+        $comments = Yii::app()->db->createCommand()
 		    ->select('name, text,created')
 		    ->from('Comments')
 		    ->limit(3)
@@ -31,6 +37,7 @@ class IndexController extends Controller
 			'comments'=>$comments,
             'city_seo' => $this->getCitySeo(),
             'data' => $this->index_data,
+            'main_page' => $main_page,
 		));
 	}
 
