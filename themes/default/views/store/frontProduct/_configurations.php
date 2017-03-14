@@ -16,7 +16,7 @@ if($jsVariantsData):
 
 <div class="number g-clearfix">
 	<?php echo CHtml::dropDownList('eav['.$variant['attribute']->id.']', null, $dropDownData, array('class'=>'variantData name',)); ?>	
-	<?=Yii::t('StoreModule.core','roses')?>
+	<?=Yii::t('StoreModule.core','quantity')?>
 	<?php /*if($model->short_description): ?>
 	<div class="sort sort-size">
 	    <a class="drop-link" href="#" title=""><?=Yii::t('StoreModule.core','The composition and size')?></a>
