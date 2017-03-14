@@ -3,10 +3,15 @@
 if(!empty($data['city_seo'])){
     $this->pageKeywords = (!empty($city_seo['keywords'])) ? $city_seo['keywords'] : '';
     $this->pageDescription = (!empty($city_seo['description'])) ? $city_seo['description'] : '';
-    $this->pageTitle = (!empty($city_seo['title'])) ? $city_seo['title'] : '7Roses';
+    $this->pageTitle = (!empty($city_seo['title'])) ? $city_seo['title'] : '';
 }
 else{
     unset($city_seo);
+    if(!empty($main_page)){
+        $this->pageKeywords = (!empty($main_page['meta_keywords'])) ? $main_page['meta_keywords'] : '';
+        $this->pageDescription = (!empty($main_page['meta_description'])) ? $main_page['meta_description'] : '';
+        $this->pageTitle = (!empty($main_page['meta_title'])) ? $main_page['meta_title'] : '';
+    }
 }
 // var_dump($slider);
 ?>
