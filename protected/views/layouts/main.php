@@ -349,8 +349,7 @@ $meta_page_title = CHtml::encode($this->pageTitle);
             <style>
                 .oocab-column{
                     width: 300px;
-                    height: 215px; /* 310 = 3 */
-                    overflow-y: scroll;
+                    height: auto;
                     float: left;
                     margin-left: 30px;
                 }
