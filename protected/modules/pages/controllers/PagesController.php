@@ -46,6 +46,7 @@ class PagesController extends Controller
 	 */
 	public function actionView($url=null)
 	{
+				echo "test";
 		$parts = explode('/', $url);
 		$url   = end($parts);
 		$model = Page::model()
