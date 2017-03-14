@@ -101,10 +101,17 @@ $img_title = (!empty($model->img_title)) ? $model->img_title : $model->name;
 	            <div class="pp-left">
 	                <?php
 					// Main product image
-					if($model->mainImage)
-                        echo CHtml::link(CHtml::image($model->mainImage->getUrl('373x373', 'resize'), $img_alt, array('title' => $img_title)), $model->mainImage->getUrl(), array('class'=>'thumbnail', 'rel' => 'pthumbs'));
+					if($model->mainImage) {
+                        $mainImg = $model->mainImage->getUrl('373x373', 'resize');
+                        if(file_exists('.' . $mainImg)) {
+                            echo CHtml::link(CHtml::image($mainImg, $img_alt, array('title' => $img_title)), $model->mainImage->getUrl(), array('class' => 'thumbnail', 'rel' => 'pthumbs'));
+                        }
+                        else{
+                            echo CHtml::image('http://placehold.it/340x350/ffffff?text=7Roses', $img_alt, array('title' => $img_title));
+                        }
+                    }
 					else
-                        echo CHtml::link(CHtml::image('http://placehold.it/340x250', $img_alt), '#', array('class'=>'thumbnail'));
+                        echo CHtml::image('http://placehold.it/340x350/ffffff?text=7Roses', $img_alt);
 					?>
                     <?php if($model->short_description): ?>
                     <div class="number g-clearfix">

@@ -32,10 +32,12 @@ $img_title = (!empty($data->img_title)) ? $data->img_title : $trans['name'];
 <div class="b-product">
     <div class="visual">
     	<?php
-		if($data->mainImage)
-			$imgSource = $data->mainImage->getUrl('135x199');
+		if($data->mainImage) {
+            $imgSource = $data->mainImage->getUrl('135x199');
+            if(!file_exists('./' . $imgSource)) $imgSource = 'http://placehold.it/135x199/ffffff?text=7Roses';
+        }
 		else
-			$imgSource = 'http://placehold.it/135x199';
+			$imgSource = 'http://placehold.it/135x199/ffffff?text=7Roses';
 		echo CHtml::link(CHtml::image($imgSource, $img_alt, array('title' => $img_title)), $product_url, array('rel'=>'nofollow'));
 		?>
     </div>
