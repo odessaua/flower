@@ -252,8 +252,8 @@ $wfp_type = 'form'; // form or widget
 $randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5); // length = 5
 $orderReference = $randomString . "_" . $model->id; // рандомный префикс
 $orderDate = strtotime($model->created);
-//$orderFullPrice = $model->full_price*$rate;
-$orderFullPrice = "1"; // temp
+$orderFullPrice = $model->full_price*$rate;
+//$orderFullPrice = "1"; // temp
 $orderCurrency = "UAH";
 $string = Yii::app()->params['merchantAccount'] . ";" . $merchantDomainName . ";" . $orderReference . ";" . $orderDate . ";" . $orderFullPrice . ";" . $orderCurrency;
 $string .= (!empty($wfp_p_names)) ? ";" . implode(";", $wfp_p_names) : "";
