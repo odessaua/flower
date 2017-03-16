@@ -35,7 +35,7 @@
             <div class="sub-title"><?=Yii::t('OrdersModule.core','Order details')?></div>
             <ul class="cart-details">
                 <li>
-                    <p><?=Yii::t('OrdersModule.core','Receiver name')?>: <b><?=$model->receiver_name ?></b></p>
+                    <p><?=Yii::t('OrdersModule.core','Recipient name:')?><b><?=$model->receiver_name ?></b></p>
                 </li>
                 <li>
                     <p><?=Yii::t('OrdersModule.core','Country:')?><b><?=$model->country?></b></p>
@@ -44,26 +44,26 @@
                     <p><?=Yii::t('OrdersModule.core','City:')?> <b><?=$model->city ?></b></p>
                 </li>
                 <li>
-                    <p><?=Yii::t('OrdersModule.core','Receiver adress')?> <b><?=$model->user_address ?></b></p>
+                    <p><?=Yii::t('OrdersModule.core','Recipient address:')?> <b><?=$model->user_address ?></b></p>
                 </li>
                 <li>
-                    <p><?=Yii::t('OrdersModule.core','Phone1')?> <b><?=$model->phone1 ?></b></p>
-                    <p><?=Yii::t('OrdersModule.core','Phone2')?> <b><?=$model->phone2?></b></p>
+                    <p><?=Yii::t('OrdersModule.core','Phone &#8470;1:')?> <b><?=$model->phone1 ?></b></p>
+                    <p><?=Yii::t('OrdersModule.core','Phone &#8470;2:')?> <b><?=$model->phone2?></b></p>
                 </li>
                 <li>
                     <p><?=Yii::t('OrdersModule.core','Date and time of delivery:')?> <b><?=$model->datetime_del?></b></p>
                 </li>
                 <li>
-                    <p><?=Yii::t('OrdersModule.core','Additional Information:')?><b><?=$model->user_comment ?></b></p>
+                    <p><?=Yii::t('OrdersModule.core','Additional Information:')?><b><? if($model->user_comment) echo $model->user_comment; else echo "---" ?></b></p>
                 </li>
                 <li>
-                    <p><?=Yii::t('OrdersModule.core','Make a photo of the recipient')?> <b><?php if($model->doPhoto) echo "Da"; else echo "Net"; ?></b></p>
+                    <p><?=Yii::t('OrdersModule.core','Make a photo of the recipient:')?> <b><?php if($model->doPhoto) echo Yii::t('OrdersModule.core', 'Yes'); else echo Yii::t('OrdersModule.core', 'No');?></b></p>
                 </li>
                 <li>
-                    <p><?=Yii::t('OrdersModule.core','Send greeting card')?> <b><?php if($model->do_card) echo "Da"; else echo "Net"; ?></b></p>
+                    <p><?=Yii::t('OrdersModule.core','Greeting card:')?> <b><?php if($model->do_card) echo Yii::t('OrdersModule.core', 'Yes'); else echo Yii::t('OrdersModule.core', 'No'); ?></b></p>
                 </li>
                 <li>
-                    <p><?=Yii::t('OrdersModule.core','Text of postcard:')?><b><?=$model->card_text?></b></p>
+                    <p><?=Yii::t('OrdersModule.core','Greeting card text:')?><b><? if($model->do_card) echo $model->card_text; else echo "---";?></b></p>
                 </li>
             </ul>
         </div>
@@ -88,8 +88,8 @@
         </ul>
             <div class="thanks">
                 <?=Yii::t('OrdersModule.core','We will do everything to ensure that the recipient liked
-         Your gift and you satisfied with our service!
-         Thank you for your trust!')?>
+         your gifts and you satisfied with our service!<br><br>
+         Thank you for your trust!<br> 7Roses Team')?>
             </div>
         </div>
     </div>

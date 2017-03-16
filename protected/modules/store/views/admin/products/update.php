@@ -11,13 +11,13 @@ $this->topButtons = $this->widget('application.modules.admin.widgets.SAdminTopBu
 	'deleteAction'=>$this->createUrl('/store/admin/products/delete', array('id'=>$model->id))
 ));
 
-$title = ($model->isNewRecord) ? Yii::t('StoreModule.admin', 'Создание товара') :
-	Yii::t('StoreModule.admin', 'Редактирование товара');
+$title = ($model->isNewRecord) ? Yii::t('StoreModule.admin', 'Создание продукта') :
+	Yii::t('StoreModule.admin', 'Редактирование продукта');
 
 $this->breadcrumbs = array(
 	'Home'=>$this->createUrl('/admin'),
 	Yii::t('StoreModule.admin', 'Товары')=>$this->createUrl('index'),
-	($model->isNewRecord) ? Yii::t('StoreModule.admin', 'Создание товара') : CHtml::encode($model->name),
+	($model->isNewRecord) ? Yii::t('StoreModule.admin', 'Создание продукта') : CHtml::encode($model->name),
 );
 
 if($model->type)
@@ -49,7 +49,7 @@ $this->widget('application.modules.admin.widgets.schosen.SChosen', array(
 		{
 			echo '<div class="errorSummary"><p>'.Yii::t('StoreModule', 'Необходимо исправить следующие ошибки:').'</p>
 					<ul>
-						<li>'.Yii::t('StoreModule.admin','Выберите атрибуты для конфигурации товаров.').'</li>
+						<li>'.Yii::t('StoreModule.admin','Выберите атрибуты для конфигурации продуктов.').'</li>
 					</ul>
 			</div>';
 		}

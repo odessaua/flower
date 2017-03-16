@@ -18,9 +18,9 @@ echo '<ul class="breadcrumbs">
         <li><a href="/"/>'.Yii::t('main','Home page').'</a></li>
     </ul>';
     echo CHtml::openTag('h1');
-        echo Yii::t('OrdersModule.core', 'The cart is empty');
+        echo Yii::t('OrdersModule.core', 'Your shopping cart is currently empty.');
     echo CHtml::closeTag('h1');
-	echo Yii::t('OrdersModule.core', '<br><br><p>Please add products to your cart before checking out.</p>');
+	echo Yii::t('OrdersModule.core', '<br><br><p>Please add items to your cart before checking out.</p>');
     if(!empty($popular)){
         shuffle($popular);
 ?>
@@ -199,9 +199,9 @@ echo '<ul class="breadcrumbs">
             
             <!-- data-form (begin) -->
             <div class="data-form">
-                <b class="title"><?=Yii::t('OrdersModule.core','Receiver information:')?></b>
+                <b class="title"><?=Yii::t('OrdersModule.core','Recipient details:')?></b>
                 <div class="s2">
-                    <span class="input-title">*<?=Yii::t('OrdersModule.core','How to contact the recipient:')?></span>
+                    <span class="input-title">*<?=Yii::t('OrdersModule.core','Recipient name:')?></span>
                     <?php echo CHtml::activeTextField($this->form,'receiver_name'); ?>
                     <?php echo CHtml::error($this->form,'receiver_name'); ?>
                 </div>
@@ -216,17 +216,17 @@ echo '<ul class="breadcrumbs">
                     <?php echo CHtml::error($this->form,'address'); ?>
                 </div>
                 <div class="s1">
-                    <span class="input-title">*<?=Yii::t('OrdersModule.core','Phone:')?> 1:</span>
+                    <span class="input-title">*<?=Yii::t('OrdersModule.core','Phone &#8470;1:')?></span>
                     <?php echo CHtml::activeTextField($this->form,'phone1'); ?>
                     <?php echo CHtml::error($this->form,'phone1'); ?>
                 </div>
                 <div class="s1">
-                    <span class="input-title"><?=Yii::t('OrdersModule.core','Phone:')?> 2:</span>
+                    <span class="input-title"><?=Yii::t('OrdersModule.core','Phone &#8470;2:')?></span>
                     <?php echo CHtml::activeTextField($this->form,'phone2'); ?>
                     <?php echo CHtml::error($this->form,'phone2'); ?>
                 </div>
                 <div class="s1">
-                    <span class="input-title">*<?=Yii::t('OrdersModule.core','Date and time of delivery:')?> </span>
+                    <span class="input-title">*<?=Yii::t('OrdersModule.core','Delivery Date:')?> </span>
                     
                     <?php $lang="ru";
                             if(Yii::app()->language=='en')
@@ -259,28 +259,28 @@ echo '<ul class="breadcrumbs">
                 </div>
                  <div class="s2">
                     <?php echo CHtml::activeCheckBox($this->form,'doPhoto'); ?>
-                    <label for="photo"><?=Yii::t('OrdersModule.core','Make a photo of the recipient')." - <span class='price'>".$photoPrice*$rate.$symbol?></span></label>
+                    <label for="photo"><?=Yii::t('OrdersModule.core','Photo of the recipient:')." <span class='price'>".$photoPrice*$rate.$symbol?></span></label>
                 </div>
                  <div class="s2">
                     <?php echo CHtml::activeCheckBox($this->form,'do_card'); ?>
-                    <label for="photo"><?=Yii::t('OrdersModule.core','Send greeting card')." - <span class='price'>".$cardPrice*$rate.$symbol?></span></label>
+                    <label for="photo"><?=Yii::t('OrdersModule.core','Greeting card:')." <span class='price'>".$cardPrice*$rate.$symbol?></span></label>
                 </div>
 
                 <div class="s2">
-                    <span class="input-title"><?=Yii::t('OrdersModule.core','Text of postcard:')?></span>
+                    <span class="input-title"><?=Yii::t('OrdersModule.core','Greeting card text:')?></span>
                     <?php echo CHtml::activeTextArea($this->form,'card_text'); ?>
                     <?php echo CHtml::error($this->form,'card_text'); ?>
                     <div class="tooltip" title="">
-                        <div class="tip-info"><?=Yii::t('OrdersModule.core','Text of postcard:')?></div>
+                        <div class="tip-info"><?=Yii::t('OrdersModule.core','Greeting card text:')?></div>
                     </div>
                 </div>
             </div>
             <!-- data-form (end) -->
             <!-- data-form (begin) -->
             <div class="data-form">
-                <b class="title"><?=Yii::t('OrdersModule.core','Information about the sender:')?></b>
+                <b class="title"><?=Yii::t('OrdersModule.core','Your contact information:')?></b>
                 <div class="s2">
-                    <span class="input-title">*<?=Yii::t('OrdersModule.core','How to contact the sender:')?></span>
+                    <span class="input-title">*<?=Yii::t('OrdersModule.core','Your full name:')?></span>
                     <?php echo CHtml::activeTextField($this->form,'name'); ?>
                     <?php echo CHtml::error($this->form,'name'); ?>
                 </div>
@@ -324,7 +324,7 @@ echo '<ul class="breadcrumbs">
 
 <!-- related-products (begin) -->
 <div class="related-products">
-    <h3 class="title"><?=Yii::t('main','Do not forget to add to your order:')?></h3>
+    <h3 class="title"><?=Yii::t('main','Add a little something extra:')?></h3>
     <div class="bg-pr-slider">
         <div class="pr-slider" id="product-slider">
             <ul>

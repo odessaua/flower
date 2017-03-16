@@ -12,7 +12,7 @@ $this->pageTitle=Yii::t('OrdersModule.core', 'My orders');
 function replaceStatus($id)
 {
     $statuses = array(
-        1 => 'Need a pay',
+        1 => 'Pending',
         5 => 'Delivered',
         6 => 'Paid',
     );
@@ -21,10 +21,10 @@ function replaceStatus($id)
 ?>
     <style>
         .blue-row{
-            background-color: #A1F0ED;
+            background-color: #fde7e7;
         }
         .yellow-row{
-            background-color: #F7F796;
+            background-color: #97F79A;
         }
         .green-row{
             background-color: #97F79A;

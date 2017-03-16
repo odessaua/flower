@@ -259,6 +259,28 @@ $meta_page_title = CHtml::encode($this->pageTitle);
                  <?php endforeach;?>
                 </ul>  
             </li>
+			<li>
+                <?php $product = StoreCategory::model()->findByPk(276);
+                       $tansProduct = StoreCategoryTranslate::model()->findByAttributes(array('object_id'=>'276', 'language_id'=>$langArray->id));
+                ?>
+                <a title="" href="/<?=$product['url']?>">
+                    <div class="visual">
+                        <img src="<?php echo Yii::app()->theme->baseUrl ?>/assets/img/nav07.png" alt=""/>
+                    </div>
+                    <div class="title"><?php echo $tansProduct->name; ?></div>
+                </a>
+				<ul>
+              <?php
+                   
+
+                    $items = StoreCategory::model()->findByPk(276)->asCMenuArray();
+                     foreach($items['items'] as $item):
+                        $tansItem = StoreCategoryTranslate::model()->findByAttributes(array('object_id'=>$item['url']['id'], 'language_id'=>$langArray->id));
+              ?>
+                 <li><a href="/<?=$item['url']['url']?>"><?=$tansItem->name;?></a></li>
+                 <?php endforeach;?>
+                </ul> 
+            </li>
            <li>
                 <?php $product = StoreCategory::model()->findByPk(236);
                        $tansProduct = StoreCategoryTranslate::model()->findByAttributes(array('object_id'=>'236', 'language_id'=>$langArray->id));
@@ -302,17 +324,6 @@ $meta_page_title = CHtml::encode($this->pageTitle);
                  <li><a href="/<?=$item['url']['url']?>"><?=$tansItem->name;?></a></li>
                  <?php endforeach;?>
                 </ul>  
-            </li>
-            <li>
-                <?php $product = StoreCategory::model()->findByPk(276);
-                       $tansProduct = StoreCategoryTranslate::model()->findByAttributes(array('object_id'=>'276', 'language_id'=>$langArray->id));
-                ?>
-                <a title="" href="/<?=$product['url']?>">
-                    <div class="visual">
-                        <img src="<?php echo Yii::app()->theme->baseUrl ?>/assets/img/nav07.png" alt=""/>
-                    </div>
-                    <div class="title"><?php echo $tansProduct->name; ?></div>
-                </a>
             </li>
         </ul>
 

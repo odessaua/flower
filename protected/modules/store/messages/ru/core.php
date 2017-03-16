@@ -18,7 +18,7 @@
         'under'=>'до',
         'over'=>'от',
         'Per page:'=>'На странице по:',
-		'roses'=>'роз',
+		'quantity'=>'количество',
 		' stems'=>' цветков',
         'Product Compare'=>'Сравнение продуктов',
         'Not indicated'=>'Не указано',
