@@ -61,13 +61,14 @@ class SStoreCityUrlRule extends CBaseUrlRule
 //		if($allPaths === false)
 //		{
 			$cities = Yii::app()->db->createCommand()
-				->from('city')
-				->select('id, name')
+				->from('cityTranslate')
+				->select('object_id, name')
+                ->where('language_id = 9')
 				->queryAll();
 
 			if(!empty($cities)){
                 foreach ($cities as $city) {
-                    $allPaths[$city['id']] = CSlug::url_slug($city['name']);
+                    $allPaths[$city['object_id']] = strtolower($city['name']);
                 }
 
             }

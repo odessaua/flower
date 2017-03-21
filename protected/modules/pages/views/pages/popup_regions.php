@@ -94,11 +94,13 @@ if(!$popup)
 
                 $langArray = SSystemLanguage::model()->findByAttributes(array('code'=>$lang));
             	$cities = Yii::app()->db->createCommand()
-				    ->select('c.name as ename,ct.name,ct.object_id,c.id,ct.language_id')
+				    ->select('c.name as ename,ct.name,ct.object_id,c.id,ct.language_id,ctt.name as eng_name')
 				    ->from('city c')
 				    ->join('cityTranslate ct', 'c.id=ct.object_id')
+				    ->join('cityTranslate ctt', 'c.id=ctt.object_id')
 				    ->where('ct.language_id=:id', array(':id'=>$langArray->id))
 				    ->andWhere('c.show_in_popup=1')
+				    ->andWhere('ctt.language_id=:eid', array(':eid'=>9))
 					->order('ct.name, id desc')
 				    ->queryAll();
 
@@ -119,7 +121,7 @@ if(!$popup)
                             foreach ($city_chunk as $city) {
                             ?>
                             <li>
-                                <?= CHtml::link($city['name'], '/' . CSlug::url_slug($city['ename'])); ?>
+                                <?= CHtml::link($city['name'], '/' . strtolower($city['eng_name'])); ?>
                             </li>
                             <?php
                             }

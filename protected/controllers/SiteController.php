@@ -94,10 +94,10 @@ class SiteController extends Controller
             $trans_command->bindValue(":name", $city_ex[0], PDO::PARAM_STR);
             $trans_res = $trans_command->queryScalar();
             // получаем название города из `city`
-            $city_sql = "SELECT `name` FROM `city` WHERE `id` = " . (int)$trans_res;
+            $city_sql = "SELECT `name` FROM `cityTranslate` WHERE `object_id` = " . (int)$trans_res . " AND `language_id` = 9";
             $city_command = Yii::app()->db->createCommand($city_sql);
             $city_res = $city_command->queryScalar();
-            $city_url = CSlug::url_slug($city_res);
+            $city_url = strtolower($city_res);
 		}else{
 			$app->session['_city'] =  'Киев';
 		}
